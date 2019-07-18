@@ -15,7 +15,7 @@ public class Customer {
 	//Testing driver
 	public static void main(String [] args) {
 		
-		Customer cust = new Customer("NinjaGodIvan", "Ivan", "ivan4ubc@yahoo.com","FUK-BICH", 10);
+		Customer cust = new Customer("NinjaGodIvan", "Ivan", "ivan4ubc@yahoo.com","111-1111", 10);
 		cust.changePhone("555-5555");
 	}
 	
