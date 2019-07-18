@@ -1,3 +1,5 @@
+/* Implementation is not complete */
+
 package barber;
 import java.util.Calendar;
 import java.util.LinkedList;
