@@ -1,5 +1,9 @@
 
-public class Barbershop {
+import java.io.Serializable;
+import BarbershopInfo;
+import Barber;
+
+public class Barbershop implements Serializable {
 	String shopName;
 	String shopAddr; // Address of location
 	String shopOwner;
@@ -10,13 +14,13 @@ public class Barbershop {
 	int shopId = 0; /* every time new barber shop is created, increment shop id
 						provides easy way to search through the barber shops to locate appointment calendars, etc*/
 	
-	//BarberId[] barberStaff;
-	//BarberShopInfo shopInfo;
+	int[] barberStaff; // for unambiguity, will change data type to barberId
+	BarbershopInfo shopInfo;
 	
 	
 	/* to add to constructor::
 	 * BarberID[] :: array of barbers who work for barber shop
-	 * BarberShopInfo :: if neccessary
+	 *
 	 */
 	Barbershop(String name, String addr, String owner, String phone, String email, String webAddr, String userName) {
 		this.shopName = name;
@@ -26,7 +30,9 @@ public class Barbershop {
 		this.email = email;
 		this.webAddr = webAddr;
 		this.shopUserName = userName;
-		this.shopId++; // 
+		this.shopId++; // incrementing barber shop id each time a new barbershop is constructed
+		this.barberStaff = null;
+		this.shopInfo = new BarbershopInfo(shopUserName, shopId, shopName, email, shopPhone);
 	}
 	Barbershop(String name, String addr, String owner, String phone, String email, String userName) {
 		this(name, addr, owner, phone, email, "N/A", userName);
@@ -81,8 +87,46 @@ public class Barbershop {
 				+ ", shopPhone=" + shopPhone + ", email=" + email + ", webAddr=" + webAddr + ", shopUserName="
 				+ shopUserName + "]";
 	}
+	
 	public String getShopContactInfo() {
-		return this.getShopName() + " " + this.getShopOwner() + " " + this.getEmail() + " " + this.getShopPhone();
+		return this.shopInfo.toString();
+	}
+	
+	public void addBarberToStaff(int barberIDNumber) {
+		if(barberStaff == null) {
+			barberStaff = new int[1];
+			barberStaff[0] = barberIDNumber;
+		} else {
+			int[] temp = new int[barberStaff.length +1];
+			barberStaff = temp;
+			barberStaff[barberStaff.length] = barberIDNumber;
+		}
+	}
+	public void removeBarberFromStaff(int barberIDNumber) {
+		for(int i = 0; i<barberStaff.length; i++) {
+			/*
+			 * if barber to be removed is not the last entry in the array
+			 */
+			if(barberIDNumber == barberStaff[i] && i<(barberStaff.length - 1)) {
+				for(int j=i+1; j<(barberStaff.length); j++, i++)
+					barberStaff[i] = barberStaff[j]; // overwrite barber ID number 
+				int[] temp = new int[barberStaff.length-1];
+				barberStaff = temp;
+				return;
+				/*
+				 * if barber is at the end of the arrays
+				 */
+			} else if (barberIDNumber == barberStaff[i] && i==(barberStaff.length - 1) ) {
+				int[] temp = new int[barberStaff.length-1];
+				barberStaff = temp;
+				return;
+			} else
+				/*
+				 * Will have to change this to send notification through the app
+				 */
+				
+				System.out.print("Barber not found");
+		}
 	}
 	// must add a method to locate and return the appointment calendar for the barbershop
 	/*
