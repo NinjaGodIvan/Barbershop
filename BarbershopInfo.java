@@ -4,13 +4,18 @@ import java.io.Serializable;
 
 public class BarbershopInfo implements Serializable{
 	private String userName;
+	private int barbershopId;
 	private String barbershopName;
 	private String barbershopEmail;
 	private int barbershopPhone;
 	
-	public BarbershopInfo(String userName, String barbershopName, String barbershopEmail, int barbershopPhone) {
-		
+	
+
+	public BarbershopInfo(String userName, int barbershopId, String barbershopName, String barbershopEmail,
+			int barbershopPhone) {
+		super();
 		this.userName = userName;
+		this.barbershopId = barbershopId;
 		this.barbershopName = barbershopName;
 		this.barbershopEmail = barbershopEmail;
 		this.barbershopPhone = barbershopPhone;
@@ -48,11 +53,23 @@ public class BarbershopInfo implements Serializable{
 		this.barbershopPhone = barbershopPhone;
 	}
 
+	
+
+	public int getBarbershopId() {
+		return barbershopId;
+	}
+
+	public void setBarbershopId(int barbershopId) {
+		this.barbershopId = barbershopId;
+	}
+
 	@Override
 	public String toString() {
-		return "BarbershopInfo [userName=" + userName + ", barbershopName=" + barbershopName + ", barbershopEmail="
-				+ barbershopEmail + ", barbershopPhone=" + barbershopPhone + "]";
+		return "BarbershopInfo [userName=" + userName + ", barbershopId=" + barbershopId + ", barbershopName="
+				+ barbershopName + ", barbershopEmail=" + barbershopEmail + ", barbershopPhone=" + barbershopPhone
+				+ "]";
 	}
+	
 	
 	
 }
