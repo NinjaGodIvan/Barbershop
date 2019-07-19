@@ -1,21 +1,24 @@
 package userInfo;
+
 import java.io.Serializable;
 
-public class CustomerInfo implements Serializable {
+public class BarbershopInfo implements Serializable{
 	private String userName;
-	private String customerName;
-	private String customerEmail;
-	private int customerPhone;
-	private int visitNumber;
+	private int barbershopId;
+	private String barbershopName;
+	private String barbershopEmail;
+	private int barbershopPhone;
 	
-	public CustomerInfo(String userName, String customerName, String customerEmail, int customerPhone,
-			int visitNumber) {
+	
 
+	public BarbershopInfo(String userName, int barbershopId, String barbershopName, String barbershopEmail,
+			int barbershopPhone) {
+		super();
 		this.userName = userName;
-		this.customerName = customerName;
-		this.customerEmail = customerEmail;
-		this.customerPhone = customerPhone;
-		this.visitNumber = visitNumber;
+		this.barbershopId = barbershopId;
+		this.barbershopName = barbershopName;
+		this.barbershopEmail = barbershopEmail;
+		this.barbershopPhone = barbershopPhone;
 	}
 
 	public String getUserName() {
@@ -26,42 +29,45 @@ public class CustomerInfo implements Serializable {
 		this.userName = userName;
 	}
 
-	public String getCustomerName() {
-		return customerName;
+	public String getBarbershopName() {
+		return barbershopName;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setBarbershopName(String barbershopName) {
+		this.barbershopName = barbershopName;
 	}
 
-	public String getCustomerEmail() {
-		return customerEmail;
+	public String getBarbershopEmail() {
+		return barbershopEmail;
 	}
 
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
+	public void setBarbershopEmail(String barbershopEmail) {
+		this.barbershopEmail = barbershopEmail;
 	}
 
-	public int getCustomerPhone() {
-		return customerPhone;
+	public int getBarbershopPhone() {
+		return barbershopPhone;
 	}
 
-	public void setCustomerPhone(int customerPhone) {
-		this.customerPhone = customerPhone;
+	public void setBarbershopPhone(int barbershopPhone) {
+		this.barbershopPhone = barbershopPhone;
 	}
 
-	public int getVisitNumber() {
-		return visitNumber;
+	
+
+	public int getBarbershopId() {
+		return barbershopId;
 	}
 
-	public void setVisitNumber(int visitNumber) {
-		this.visitNumber = visitNumber;
+	public void setBarbershopId(int barbershopId) {
+		this.barbershopId = barbershopId;
 	}
 
 	@Override
 	public String toString() {
-		return "CustomerInfo [userName=" + userName + ", customerName=" + customerName + ", customerEmail="
-				+ customerEmail + ", customerPhone=" + customerPhone + ", visitNumber=" + visitNumber + "]";
+		return "BarbershopInfo [userName=" + userName + ", barbershopId=" + barbershopId + ", barbershopName="
+				+ barbershopName + ", barbershopEmail=" + barbershopEmail + ", barbershopPhone=" + barbershopPhone
+				+ "]";
 	}
 	
 	
