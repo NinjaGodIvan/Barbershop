@@ -174,7 +174,11 @@ public class BarberShopTree {
 				return this.inTree(c,n.right);
 			}
 		} else  if (nodeName.compareTo(newNodeName) == 0) {
-			return true;
+			if (c.getPassword().equals(n.info.getPassword())) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}

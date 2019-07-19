@@ -5,6 +5,7 @@ import java.util.EmptyStackException;
 import java.lang.reflect.Array;
 import java.io.Serializable;
 
+
 /* I use different classes so that i can support multithreading for different
  * jobs
  * 
@@ -180,9 +181,27 @@ class ReturnData extends Thread {
 			Socket s = server.accept();
 			ObjectOutputStream backToUser = new ObjectOutputStream(s.getOutputStream());
 			if (packet.getCustomer() != null) {
-				packet.infoC = tree.returnInfo(packet.getCustomer());
-			} else {
-				packet.infoB = barberShopTree.returnInfo(packet.getBarberShop());
+				if (packet.request == RequestEnum.Request.getData) {
+					packet.infoC = tree.returnInfo(packet.getCustomer());
+				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
+					boolean inTree = tree.inTree(packet.getCustomer());
+					if (inTree) {
+						packet.infoC = tree.returnInfo(packet.getCustomer());
+					} else {
+						packet.infoC = null;
+					}
+				}
+			} else  if (packet.getBarberShop() != null) {
+				if (packet.request == RequestEnum.Request.getData) {
+					packet.infoB = barberShopTree.returnInfo(packet.getBarberShop());
+				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
+					boolean inTree = barberShopTree.inTree(packet.getBarberShop());
+					if (inTree) {
+						packet.infoB = barberShopTree.returnInfo(packet.getBarberShop());
+					} else {
+						packet.infoB = null; // if password or userName does not match
+					}
+				}				
 			}			
 			backToUser.writeObject(packet); // writes state of object
 			backToUser.close();
@@ -220,15 +239,16 @@ class SynchronizeData extends Thread {
 		try {
 			while (true) {
 				waitSem.acquire();
-				
-				AddData addData = addDataBuffer.consumeThread();
-				
-				addData.start(); // start thread
-				addData.startThread(); // release semaphore
-				semaphore.acquire(); // wait for addData thread to finsih
-				semaphore.drainPermits(); // reset
-				if (addDataBuffer.isEmpty())
-					this.stopThread();
+				while (!addDataBuffer.isEmpty()) {
+					AddData addData = addDataBuffer.consumeThread();
+					
+					addData.start(); // start thread
+					addData.startThread(); // release semaphore
+					semaphore.acquire(); // wait for addData thread to finsih
+					semaphore.drainPermits(); // reset
+				}
+				this.stopThread();
+
 			}
 		} catch (Exception e) {
 			System.out.println("something bad happened");
@@ -271,7 +291,7 @@ class AddData extends Thread {
 			semaphore.acquire();
 			
 			getData(packet);
-			System.out.println("ThreadID " + threadID);
+//			System.out.println("ThreadID " + threadID);
 			synchronizeData.doneWithWork();
 			
 			semaphore.drainPermits();
@@ -282,12 +302,19 @@ class AddData extends Thread {
 	// 																													ADDING NODES TO BARBER TREE
 	private void getData(Packet packet) {
 		try {
-			// getInputStream returns an input stream
 			if (packet.getCustomer() != null) {
-				tree.addNode(packet.getCustomer());
-			} else {
-				barberShopTree.addNode(packet.getBarberShop());
-			}
+				if (packet.request == RequestEnum.Request.giveData) {
+					tree.addNode(packet.getCustomer());
+				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
+					tree.removeNode(packet.getCustomer());
+				}
+			} else  if (packet.getBarberShop() != null) {
+				if (packet.request == RequestEnum.Request.giveData) {
+					barberShopTree.addNode(packet.getBarberShop());
+				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
+					barberShopTree.removeNode(packet.getBarberShop());
+				}
+			}						
 			customers++;
 			if ((customers % 5) == 0) {
 				tree.printInOrder();
@@ -394,35 +421,5 @@ class CircularBuffer<T> {
 	 */
 	public void setDone(boolean d) {
 		this.done = d;
-	}
-}
-
-class Packet  implements Serializable {
-	CustomerInfo infoC;
-	BarberShopInfo infoB;
-	boolean back; // value that states if it is or isnt going to send data back
-	
-	Packet(CustomerInfo info, boolean back) {
-		this.infoC = info;
-		this.infoB = null;
-		this.back = back;
-	}
-	
-	Packet(BarberShopInfo info,boolean back) {
-		this.infoB = info;
-		this.infoC = null;
-		this.back = back;
-	}
-	
-	public CustomerInfo getCustomer() {
-		return this.infoC;
-	}
-	
-	public BarberShopInfo getBarberShop() {
-		return this.infoB;
-	}
-	
-	public boolean sendBack() {
-		return back;
 	}
 }

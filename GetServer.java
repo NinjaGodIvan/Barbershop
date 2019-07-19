@@ -55,9 +55,6 @@ public class GetServer {
 			Socket socket = new Socket(ip.getHostName(),4001);
 			ObjectInputStream fromServer = new ObjectInputStream(socket.getInputStream());
 			packet = (Packet)fromServer.readObject(); // writes state of object
-			if (packet.getCustomer() != null) {
-				System.out.println(packet.getCustomer());
-			}
 			fromServer.close();
 		} catch (Exception e) {
 			System.out.println("Didnt send info2");
