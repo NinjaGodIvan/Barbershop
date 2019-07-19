@@ -3,13 +3,17 @@ import java.io.Serializable;
 
 public class BarberInfo implements Serializable {
 	private String userName;
+	private int barberId;
 	private String barberName;
 	private String barberEmail;
 	private int barberPhone;
 	
-	public BarberInfo(String userName, String barberName, String barberEmail, int barberPhone) {
-		
+	
+
+	public BarberInfo(String userName, int barberId, String barberName, String barberEmail, int barberPhone) {
+		super();
 		this.userName = userName;
+		this.barberId = barberId;
 		this.barberName = barberName;
 		this.barberEmail = barberEmail;
 		this.barberPhone = barberPhone;
@@ -47,11 +51,23 @@ public class BarberInfo implements Serializable {
 		this.barberPhone = barberPhone;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "BarberInfo [userName=" + userName + ", barberName=" + barberName + ", barberEmail=" + barberEmail
-				+ ", barberPhone=" + barberPhone + "]";
+		return "BarberInfo [userName=" + userName + ", barberId=" + barberId + ", barberName=" + barberName
+				+ ", barberEmail=" + barberEmail + ", barberPhone=" + barberPhone + "]";
 	}
+
+	public int getBarberId() {
+		return barberId;
+	}
+
+	public void setBarberId(int barberId) {
+		this.barberId = barberId;
+	}
+
+	
 	
 	
 	
