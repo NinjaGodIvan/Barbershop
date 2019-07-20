@@ -3,23 +3,18 @@ import java.io.Serializable;
 
 public class CustomerInfo implements Serializable {
 	private String userName;
-	private int customerId;
 	private String customerName;
 	private String customerEmail;
 	private int customerPhone;
-	private int visitNumber;
 	
 	
 
-	public CustomerInfo(String userName, int customerId, String customerName, String customerEmail, int customerPhone,
-			int visitNumber) {
+	public CustomerInfo(String userName, String customerName, String customerEmail, int customerPhone) {
 		super();
 		this.userName = userName;
-		this.customerId = customerId;
 		this.customerName = customerName;
 		this.customerEmail = customerEmail;
 		this.customerPhone = customerPhone;
-		this.visitNumber = visitNumber;
 	}
 
 	public String getUserName() {
