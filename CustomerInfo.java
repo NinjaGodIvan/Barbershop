@@ -49,15 +49,6 @@ public class CustomerInfo implements Serializable {
 		this.customerPhone = customerPhone;
 	}
 
-	public int getVisitNumber() {
-		return visitNumber;
-	}
-
-	public void setVisitNumber(int visitNumber) {
-		this.visitNumber = visitNumber;
-	}
-
-
 	public int getCustomerId() {
 		return customerId;
 	}
