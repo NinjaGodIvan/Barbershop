@@ -11,9 +11,6 @@ public class Barbershop implements Serializable {
 	String email;
 	String webAddr; // website url
 	String shopUserName; // user name of application shop account
-	int shopId = 0; /* every time new barber shop is created, increment shop id
-						provides easy way to search through the barber shops to locate appointment calendars, etc*/
-	
 	int[] barberStaff; // for unambiguity, will change data type to barberId
 	BarbershopInfo shopInfo;
 	
@@ -30,7 +27,6 @@ public class Barbershop implements Serializable {
 		this.email = email;
 		this.webAddr = webAddr;
 		this.shopUserName = userName;
-		this.shopId++; // incrementing barber shop id each time a new barbershop is constructed
 		this.barberStaff = null;
 		this.shopInfo = new BarbershopInfo(shopUserName, shopId, shopName, email, shopPhone);
 	}
