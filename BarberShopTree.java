@@ -1,5 +1,5 @@
 public class BarberShopTree implements Serializable{
-	class Node {
+	class Node implements Serializable {
 		Node(BarberShopInfo barberShop) {
 			this.info = barberShop;
 		}
