@@ -17,8 +17,7 @@ public class Barber implements Serializable
 	
 	
 	public Barber(String userName, String barberName, String barberEmail, int barberPhone, boolean availability, String status) 
-	{
-		
+	{	
 		this.userName = userName;
 		this.password = userName;
 		this.barberName = barberName;
@@ -26,6 +25,7 @@ public class Barber implements Serializable
 		this.barberPhone = barberPhone;
 		this.availability = availability;
 		this.status = status;
+		BarberInfo(this.username, this.barberName, this.barberEmail, this.barberPhone);
 	}
 
 	public String getUserName() 
