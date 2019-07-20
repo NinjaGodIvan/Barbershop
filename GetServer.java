@@ -17,9 +17,11 @@ public class GetServer {
 	GetServer() {
 	}
 // CUSTOMER INTERFACE CLASSES YOU CAN USE	
-	
-	public giveCustomerInfo(CustomerInfo info) {
-		this.sendInfo(new Packet(
+	/*
+		if changes made to customeraccount must pass it back to server by say
+	*/
+	public void giveCustomerInfo(CustomerInfo info) {
+		this.sendInfo(new Packet(info,RequestEnum.request.giveData));
 	}
 	
 	/*
@@ -61,6 +63,10 @@ public class GetServer {
 	}	
 	
 // BARBERSHOP INTERFACE CLASSES
+	public void giveBarberShopInfo(BarberShopInfo info) {
+		this.sendInfo(new Packet(info,RequestEnum.request.giveData));
+	}
+	
 	public BarberShopInfo getBarberShopInfo(String userName) {
 		Packet packet = new Packet((new BarberShopInfo(userName)),RequestEnum.request.getData);
 		packet = this.getInfo(packet);
