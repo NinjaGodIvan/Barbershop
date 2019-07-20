@@ -1,4 +1,4 @@
-public class BarberShopTree {
+public class BarberShopTree implements Serializable{
 	class Node {
 		Node(BarberShopInfo barberShop) {
 			this.info = barberShop;
