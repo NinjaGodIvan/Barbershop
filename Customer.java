@@ -3,15 +3,25 @@
 package barber;
 import java.util.Calendar;
 import java.util.Scanner;
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
 	
 	//Customer's appointment date, their information, and barber shop
 	private Calendar appointment;
 	private String barberShop;
 	private CustomerInfo custInfo;
+	private String userName;
+	private String name;
+	private String email;
+	private String phoneNumber;
 	
-	public Customer(String userName, String name, String email, String phoneNum, int numVisits) {
-		custInfo = new CustomerInfo(userName,name,email,phoneNum,numVisits);
+	public Customer(String userName, String name, String email, String phoneNum) {
+		this.userName = userName;
+		this.name = name;
+		this.email = email;
+		this.phoneNumber = phoneNum;
+		custInfo = new CustomerInfo(userName,name,email,phoneNum);
 	}
 	
 	//Testing driver (delete this soon)
