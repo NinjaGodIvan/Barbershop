@@ -5,30 +5,20 @@ import java.util.Calendar;
 import java.util.Scanner;
 import java.io.Serializable;
 
-public class Customer implements Serializable {
+public class Customer extends Thread {
 	
 	//Customer's appointment date, their information, and barber shop
-	private Calendar appointment;
+	private Appointment appt;
 	private String barberShop;
 	private CustomerInfo custInfo;
-	private String userName;
-	private String name;
-	private String email;
-	private String phoneNumber;
+	private GetServer server;
 	
-	public Customer(String userName, String name, String email, String phoneNum) {
+	public Customer(String userName, String name, String email, String phoneNum)//-- {
 		this.userName = userName;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNum;
-		custInfo = new CustomerInfo(userName,name,email,phoneNum);
-	}
-	
-	//Testing driver (delete this soon)
-	public static void main(String [] args) {
-		
-		Customer cust = new Customer("NinjaGodIvan", "Ivan", "ivan4ubc@yahoo.com","FUK-BICH", 10);
-		cust.changePhone("555-5555");
+		custInfo = server.getCustomerInfo(); //--
 	}
 	
 	/** Function that asks user for the name of the barbershop and sets it */
@@ -40,33 +30,33 @@ public class Customer implements Serializable {
 		String barberShop = in.nextLine();
 		in.close();
 		this.barberShop = barberShop;
+		
 	}
 	
 	/** Function that changes the customer's phone number */
 	public void changePhone(String phoneNum) {
 		custInfo.setCustomerPhone(phoneNum);
+		server.giveCustomerInfo(this.custInfo);
 	}
 	
 	/** Function that changes the customer's phone number */
 	public void changeEmail(String email) {
 		custInfo.setCustomerEmail(email);
+		server.giveCustomerInfo(this.custInfo);
 	}
 	
 	/** Function that works with the Appointment class.
 	 *  Used to have the customer make an appointment
 	 */
-	public void makeAppointment() {
+	public void getAppointment() {
 		
-		//Get accessed to Appointment class
-		Appointment a = new Appointment();
-		//Testing values (remove them soon)
-		a.makeAppointment(appointment, 12, 8, 2019, 30, 4);
 	}
 	
 	/** Function that gets the account from the server */
 	public void getAccount() {
 		//Code this
 	}
+	public 
 	
 	/** Function that changes the customer's barber shop name */
 	public void changeBarber(String barberShop) {
@@ -77,4 +67,5 @@ public class Customer implements Serializable {
 	public String getBarber() {
 		return this.barberShop;
 	}
+	
 }
