@@ -195,7 +195,41 @@ public class BarberShopTree implements Serializable{
 			printInOrder(n.left);
 		}
 	}
+	//--
+	public int sizeTree() {
+		i = 0;
+		if (!isEmpty())
+			return sizeTree((i+1), root);
+		else
+			return i;
+	}
+	private int sizeTree(int i, node n) {
+		if (!= null) {
+			i++;
+			int sizeRight = sizeTree(i, n.right);
+			int sizeLeft = sizeTree(i, n.left);
+			if (sizeRight > sizeLeft)
+				return sizeRight;
+			else
+				return sizeLeft;
+		}
+		return i;
+	}
 	
+	public BarberShopInfo[] getBarberShopList() {
+		int size = sizeTree();
+		if (size != 0) {
+			BarberShopInfo[] barberShopList = new BarberShopInfo[size];
+			return getBarberShopList(root,0,barberShopList);
+		}
+		return null;
+	}
+	public BarberShopInfo[] getBarberShopList(Node n, int i, BarberShopInfo[] list) {
+		return getBarberShopList(n.right, i, list);
+		list[i++] = n.info;
+		return getBarberShopList(n.left, i, list);
+	}
+	//--
 	private boolean isEmpty() {
 		if (root == null) {
 			return true;		
