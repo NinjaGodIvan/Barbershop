@@ -7,6 +7,7 @@ public class BarberShopInfo implements Serializable {
 	private long phone;
 	private String password;
 	private String address;
+	public Waitlist currentList;
 	
 	BarberShopInfo(String name,String userName,String email,long phone,String password) {
 		this.name = name;
@@ -62,6 +63,7 @@ public class BarberShopInfo implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String toString() {
 		return "Name" + userName;
 	}
