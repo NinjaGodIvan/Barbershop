@@ -8,6 +8,7 @@ public class BarberShopInfo implements Serializable {
 	private String password;
 	private String address;
 	public Waitlist currentList;
+	LinkedList messages;
 	
 	BarberShopInfo(String name,String userName,String email,long phone,String password) {
 		this.name = name;
@@ -16,6 +17,7 @@ public class BarberShopInfo implements Serializable {
 		this.phone = phone;
 		this.password = password;
 		this.address = "nothing for now";
+		this.messages = new LinkedList();
 	}
 	
 	BarberShopInfo(String userName) { // just a test constructor
@@ -25,6 +27,10 @@ public class BarberShopInfo implements Serializable {
 	BarberShopInfo(String userName,String password) { // just a test constructor
 		this("test", userName,"test",5555,password);
 	}
+	
+	public void giveMessage(String message) {
+		messages.addNode(message);
+	}		
 	
 	public String getAddress() {
 		return address;
