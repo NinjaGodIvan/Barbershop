@@ -1,15 +1,17 @@
-import java.util.ArrayList;
+import LinkedList;
+import CustomerInfo;
+import BarberShopInfo;
 
 // currently configured to use customer Id as a parameter, can be switched out when customer ID class is built
-class WaitList<CustomerId> {
-	private static String barberShopId = null;
-	private ArrayList<CustomerId> list;
+class WaitList {
+	private static BarberShopInfo barberShopId;
+	private Node waiting;
 	
-	public WaitList(String shopId) {
+	public WaitList(BarberShopId shopId) {
 		barberShopId = shopId;
 	}
-	public void addToWait(CustomerId c) {
-		list.add(c);
+	public void addToWait(CustomerInfo c) {
+		waiting.addNode(c);
 	}
 	public String getCurrentWaitList() {
 		String currentWaitList = "";
