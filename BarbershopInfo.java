@@ -7,6 +7,7 @@ public class BarberShopInfo implements Serializable {
 	private long phone;
 	private String password;
 	private String address;
+	private Waitlist wList;
 	
 	BarberShopInfo(String name,String userName,String email,long phone,String password) {
 		this.name = name;
