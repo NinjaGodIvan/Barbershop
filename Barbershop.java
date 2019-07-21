@@ -1,86 +1,110 @@
-
 import java.io.Serializable;
 import BarbershopInfo;
-import Barber;
 
-public class Barbershop implements Serializable {
+public class BarberShop extends Thread {
 	String shopName;
 	String shopAddr; // Address of location
 	String shopOwner;
-	String shopPhone; // phone # for contact
+	long shopPhone; // phone # for contact
 	String email;
 	String webAddr; // website url
 	String shopUserName; // user name of application shop account
-	int[] barberStaff; // for unambiguity, will change data type to barberId
-	BarbershopInfo shopInfo;
+	CustomerInfo[] barberStaff; // for unambiguity, maybe change data type to barberId
+	BarberShopInfo shopInfo;
+	GetServer getServer;
 	
 	
 	/* to add to constructor::
 	 * BarberID[] :: array of barbers who work for barber shop
 	 *
 	 */
-	Barbershop(String name, String addr, String owner, String phone, String email, String webAddr, String userName) {
-		this.shopName = name;
-		this.shopAddr = addr;
-		this.shopOwner = owner;
-		this.shopPhone = phone;
-		this.email = email;
-		this.webAddr = webAddr;
-		this.shopUserName = userName;
+	BarberShop(BarberShopInfo shopInfo) {
+		this.shopName = shopInfo.getName();
+		this.shopAddr = shopInfo.getAddress();
+		this.shopPhone = shopInfo.getPhone();
+		this.email = shopInfo.getEmail();
+		this.shopUserName = shopInfo.getUserName();
 		this.barberStaff = null;
-		this.shopInfo = new BarbershopInfo(shopUserName, shopId, shopName, email, shopPhone);
+		this.shopInfo = shopInfo;
+		this.getServer = new GetServer();
+		this.start();
 	}
-	Barbershop(String name, String addr, String owner, String phone, String email, String userName) {
-		this(name, addr, owner, phone, email, "N/A", userName);
+	
+	/* get barberShopInfo from server to update it if some customer
+	 * made changes to it
+	 */
+	public void run() {
+		while (true) {
+			try {
+				BarberShopInfo temp = getServer.getBarberShopInfo(shopUserName);
+				if (temp != null)
+					this.shopInfo = temp; 
+				sleep(15000);
+			} catch (Exception e) [
+				System.out.println(e.getMessage());
+			}
+		}	
 	}
+	
+	public void upgradeCustomer(String userName) {
+		try {
+			CustomerInfo customer = getServer.getCustomerInfo(userName); // get a customer account from server
+			customer.makeBarber(this.shopInfo); // upgrade to a barber account
+			while (!getServer.giveCustomerInfo()) {
+				System.out.println("error not connected");
+				this.sleep(5000);
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	
 	//setters
-	public void setName(String name) {
+	public void setShopName(String name) {
 		this.shopName = name;
+		this.shopInfo.setName(name);
 	}
 	public void setAddr(String addr) {
 		this.shopAddr = addr;
+		this.shopInfo.setAddress(addr);
 	}
-	public void setOwner(String own) {
-		this.shopOwner = own;
-	}
-	public void setPhone(String phone) {
+
+	public void setPhone(long phone) {
 		this.shopPhone = phone;
+		this.shopInfo.setPhone(phone);
 	}
 	public void setEmail(String email) {
 		this.email = email;
+		this.shopInfo.setEmail(email);
 	}
-	public void setWeb(String webAddr) {
-		this.webAddr = webAddr;
-	}
+
 	public void setUserName(String userName) {
 		this.shopUserName = userName;
+		this.shopInfo.setName(userName);
+	}
+	public void setPassword(String password) {
+		this.shopInfo.setPassword(password);
 	}
 	//getters 
-	public String getShopName() {
-		return shopName;
-	}
+
 	public String getShopAddr() {
-		return shopAddr;
+		return this.shopInfo.getAddress();
 	}
-	public String getShopOwner() {
-		return shopOwner;
-	}
-	public String getShopPhone() {
-		return shopPhone;
-	}
-	public String getWebAddr() {
-		return webAddr;
+	public long getShopPhone() {
+		return this.shopInfo.getPhone();
 	}
 	public String getShopUserName() {
-		return shopUserName;
+		return this.shopInfo.getUserName();
 	}
 	public String getEmail() {
-		return email;
+		return this.shopInfo.getEmail();
 	}
 	@Override
 	public String toString() {
-		return "Barbershop [shopName=" + shopName + ", shopAddr=" + shopAddr + ", shopOwner=" + shopOwner
-				+ ", shopPhone=" + shopPhone + ", email=" + email + ", webAddr=" + webAddr + ", shopUserName="
+		return "Barbershop [shopName=" + shopName + ", shopAddr=" + shopAddr
+				+ ", shopPhone=" + shopPhone + ", email=" + email + ", shopUserName="
 				+ shopUserName + "]";
 	}
 	
@@ -88,32 +112,33 @@ public class Barbershop implements Serializable {
 		return this.shopInfo.toString();
 	}
 	
-	public void addBarberToStaff(int barberIDNumber) {
+	public void addBarberToStaff(CustomerInfo info) {
 		if(barberStaff == null) {
-			barberStaff = new int[1];
-			barberStaff[0] = barberIDNumber;
+			barberStaff = new CustomerInfo[1];
+			barberStaff[0] = info;
 		} else {
-			int[] temp = new int[barberStaff.length +1];
+			CustomerInfo[] temp = new CustomerInfo[barberStaff.length +1];
 			barberStaff = temp;
-			barberStaff[barberStaff.length] = barberIDNumber;
+			barberStaff[barberStaff.length] = info;
 		}
 	}
-	public void removeBarberFromStaff(int barberIDNumber) {
+	
+	public void removeBarberFromStaff(String userName) {
 		for(int i = 0; i<barberStaff.length; i++) {
 			/*
 			 * if barber to be removed is not the last entry in the array
 			 */
-			if(barberIDNumber == barberStaff[i] && i<(barberStaff.length - 1)) {
+			if((userName == barberStaff[i].getUserName()) && i<(barberStaff.length - 1)) {
 				for(int j=i+1; j<(barberStaff.length); j++, i++)
 					barberStaff[i] = barberStaff[j]; // overwrite barber ID number 
-				int[] temp = new int[barberStaff.length-1];
+				CustomerInfo[] temp = new CustomerInfo[barberStaff.length-1];
 				barberStaff = temp;
 				return;
 				/*
 				 * if barber is at the end of the arrays
 				 */
-			} else if (barberIDNumber == barberStaff[i] && i==(barberStaff.length - 1) ) {
-				int[] temp = new int[barberStaff.length-1];
+			} else if ((userName == barberStaff[i].getUserName()) && i==(barberStaff.length - 1) ) {
+				CustomerInfo[] temp = new CustomerInfo[barberStaff.length-1];
 				barberStaff = temp;
 				return;
 			} else
