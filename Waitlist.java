@@ -1,14 +1,14 @@
 import java.io.Serializable;
 import CustomerInfo;
-import BarberShopInfo;
+import BarbershopInfo;
 
 class Waitlist implements Serializable {
 	
-	private BarberShopInfo barberShopId;
+	private BarbershopInfo barberShopId;
 	private CustomerInfo[] list = null;
 	private int size = 0;
 	
-	public Waitlist(BarberShopInfo shopId) {
+	public Waitlist(BarbershopInfo shopId) {
 		barberShopId = shopId;
 		this.barberShopId.currentList = this;
 	}
