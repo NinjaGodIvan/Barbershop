@@ -8,15 +8,23 @@ public class SaveAndLoad {
 	public void SaveData(Tree tree) {
 		
 		try {
-		
 			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename));
 			saveData.writeObject(tree);
 			saveData.close();
-		
 		}catch(IOException e) {
 			System.out.println("Unable to save data.");
 		}
+	}
+	
+	public void SaveData(BarberShopTree barberTree) {
 		
+		try {
+			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename));
+			saveData.writeObject(barberTree);
+			saveData.close();
+		}catch(IOException e) {
+			System.out.println("Unable to save data.");
+		}	
 	}
 	
 	public Tree LoadData() {
