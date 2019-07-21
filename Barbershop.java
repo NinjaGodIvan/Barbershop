@@ -1,4 +1,4 @@
-import java.io.Serializable;
+
 import BarbershopInfo;
 
 public class BarberShop extends Thread {
