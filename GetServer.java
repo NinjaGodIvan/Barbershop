@@ -20,8 +20,8 @@ public class GetServer {
 	/*
 		if changes made to customeraccount must pass it back to server by say
 	*/
-	public void giveCustomerInfo(CustomerInfo info) {
-		this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
+	public boolean giveCustomerInfo(CustomerInfo info) {
+		return this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
 	}
 	
 	/*
@@ -132,7 +132,7 @@ public class GetServer {
 		return null;
 	}
 	
-	private void sendInfo(Packet info) {
+	private boolean sendInfo(Packet info) {
 		try {
 			Socket socket = this.connectToServer();
 			
@@ -141,8 +141,10 @@ public class GetServer {
 			ObjectOutputStream toServer = new ObjectOutputStream(socket.getOutputStream());
 			toServer.writeObject(info); // writes state of object
 			toServer.close();
+			return true;
 		} catch (Exception e) {
 			System.out.println("Didnt send info");
+			return false;
 		}
 	}
 		
