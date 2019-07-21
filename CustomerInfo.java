@@ -8,6 +8,7 @@ public class CustomerInfo implements Serializable {
 	private long phone;
 	boolean isBarber;
 	BarberShopInfo info;
+	BarberShopInfo[] barberShopList;
 	
 	CustomerInfo(String name,String userName,String email,long phone,String password) {
 		this.name = name;
@@ -17,6 +18,7 @@ public class CustomerInfo implements Serializable {
 		this.password = password;
 		this.isBarber = false;
 		this.info = null;
+		this.barberShopList = null;
 	}
 	
 	CustomerInfo(String userName) { // just a test constructor
@@ -25,7 +27,11 @@ public class CustomerInfo implements Serializable {
 	
 	CustomerInfo(String userName, String password) { // just a test constructor
 		this("test", userName,"test",5555,password);
-	}	
+	}
+	
+	public void giveList(BarberShopInfo[] barberShopList) {
+		this.barberShopList = barberShopList;
+	}
 	
 	public void makeBarber(BarberShopInfo info) {
 		if (info != null) {
