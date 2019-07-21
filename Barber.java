@@ -1,9 +1,9 @@
 import java.util.Scanner;
 //package userInfo;
-import java.io.Serializable;
+
 
 // Chao's credit: From this line to the end of the toString function
-public class Barber implements Serializable
+public class Barber
 {
 	
 	private String userName;
