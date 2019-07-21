@@ -21,7 +21,7 @@ public class GetServer {
 		if changes made to customeraccount must pass it back to server by say
 	*/
 	public void giveCustomerInfo(CustomerInfo info) {
-		this.sendInfo(new Packet(info,RequestEnum.request.giveData));
+		this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
 	}
 	
 	/*
@@ -29,7 +29,7 @@ public class GetServer {
 	*/	
 	
 	public CustomerInfo getCustomerInfo(String userName) {
-		Packet packet = new Packet((new CustomerInfo(userName)),RequestEnum.request.getData);
+		Packet packet = new Packet((new CustomerInfo(userName)),RequestEnum.Request.getData);
 		packet = this.getInfo(packet);
 		return packet.getCustomer();
 	}
@@ -40,11 +40,11 @@ public class GetServer {
 	*/
 	
 	public CustomerInfo getCustomerInfo(String userName, String password) {
-		return this.findCustomerInfo(username,password);
+		return this.findCustomerInfo(userName,password);
 	}	
 	
 	public CustomerInfo getCustomerInfo(CustomerInfo info) {
-		Packet packet = new Packet(info,RequestEnum.request.getData);
+		Packet packet = new Packet(info,RequestEnum.Request.getData);
 		packet = this.getInfo(packet);
 		return packet.getCustomer();
 	}	
@@ -60,15 +60,17 @@ public class GetServer {
 			System.out.println("ACCOUNT EXISTS");
 		}		
 		return false;
-	}	
+	}
+	
+		
 	
 // BARBERSHOP INTERFACE CLASSES
 	public void giveBarberShopInfo(BarberShopInfo info) {
-		this.sendInfo(new Packet(info,RequestEnum.request.giveData));
+		this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
 	}
 	
 	public BarberShopInfo getBarberShopInfo(String userName) {
-		Packet packet = new Packet((new BarberShopInfo(userName)),RequestEnum.request.getData);
+		Packet packet = new Packet((new BarberShopInfo(userName)),RequestEnum.Request.getData);
 		packet = this.getInfo(packet);
 		return packet.getBarberShop();
 	}	
@@ -78,11 +80,11 @@ public class GetServer {
 		Will Return null if it doesnt find account
 	*/
 	public BarberShopInfo getBarberShopInfo(String userName, String password) {
-		return this.findBarberShopInfo(username,password);
+		return this.findBarberShopInfo(userName,password);
 	}	
 	
 	public BarberShopInfo getBarberShopInfo(BarberShopInfo info) {
-		Packet packet = new Packet(info,RequestEnum.request.getData);
+		Packet packet = new Packet(info,RequestEnum.Request.getData);
 		packet = this.getInfo(packet);
 		return packet.getBarberShop();
 	}
@@ -106,13 +108,13 @@ public class GetServer {
 // DONT WORRY ABOUT THESE CLASSES
 
 	private CustomerInfo findCustomerInfo(String userName, String password) {
-		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.request.findData);
+		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
 		return packet.getCustomer();
 	}	
 	
 	private BarberShopInfo findBarberShopInfo(String userName, String password) {
-		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.request.findData);
-		return packet.getCustomer();
+		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
+		return packet.getBarberShop();
 	}
 	
 	/* returns true of connected returns false otherwise
@@ -161,4 +163,3 @@ public class GetServer {
 	}
 	
 }
-
