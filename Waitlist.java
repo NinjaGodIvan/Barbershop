@@ -4,13 +4,13 @@ import BarbershopInfo;
 
 class Waitlist implements Serializable {
 	
-	private BarbershopInfo barberShopId;
+	private BarbershopInfo shopInfo;
 	private CustomerInfo[] list = null;
 	private int size = 0;
 	
-	public Waitlist(BarbershopInfo shopId) {
-		barberShopId = shopId;
-		this.barberShopId.currentList = this;
+	public Waitlist(BarbershopInfo shopInfo) {
+		this.shopInfo = shopInfo;
+		this.shopInfo.currentList = this;
 	}
 	public void addToWait(CustomerInfo cInfo) {
 		if(list == null) {
