@@ -9,6 +9,7 @@ public class CustomerInfo implements Serializable {
 	boolean isBarber;
 	BarberShopInfo info;
 	BarberShopInfo[] barberShopList;
+	LinkedList messages;
 	
 	CustomerInfo(String name,String userName,String email,long phone,String password) {
 		this.name = name;
@@ -19,6 +20,7 @@ public class CustomerInfo implements Serializable {
 		this.isBarber = false;
 		this.info = null;
 		this.barberShopList = null;
+		this.LinkedList messages = new LinkedList();
 	}
 	
 	CustomerInfo(String userName) { // just a test constructor
@@ -28,6 +30,10 @@ public class CustomerInfo implements Serializable {
 	CustomerInfo(String userName, String password) { // just a test constructor
 		this("test", userName,"test",5555,password);
 	}
+	
+	public void giveMessage(String message) {
+		messages.addNode(message);
+	}	
 	
 	public void giveList(BarberShopInfo[] barberShopList) {
 		this.barberShopList = barberShopList;
