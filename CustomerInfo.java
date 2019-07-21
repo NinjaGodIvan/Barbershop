@@ -20,7 +20,7 @@ public class CustomerInfo implements Serializable {
 		this.isBarber = false;
 		this.info = null;
 		this.barberShopList = null;
-		this.LinkedList messages = new LinkedList();
+		this.messages = new LinkedList();
 	}
 	
 	CustomerInfo(String userName) { // just a test constructor
