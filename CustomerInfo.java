@@ -6,8 +6,6 @@ public class CustomerInfo implements Serializable {
 	private String customerName;
 	private String customerEmail;
 	private int customerPhone;
-	
-	
 
 	public CustomerInfo(String userName, String customerName, String customerEmail, int customerPhone) {
 		super();
@@ -49,21 +47,9 @@ public class CustomerInfo implements Serializable {
 		this.customerPhone = customerPhone;
 	}
 
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
-
 	@Override
 	public String toString() {
-		return "CustomerInfo [userName=" + userName + ", customerId=" + customerId + ", customerName=" + customerName
-				+ ", customerEmail=" + customerEmail + ", customerPhone=" + customerPhone + ", visitNumber="
-				+ visitNumber + "]";
+		return "CustomerInfo [userName=" + userName + ", customerName=" + customerName
+				+ ", customerEmail=" + customerEmail +  "]";
 	}
-	
-	
-	
 }
