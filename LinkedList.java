@@ -9,7 +9,7 @@ package com;
  * 
  **/
 
-public class LinkedList {
+public class LinkedList implements Serializable {
 	Node headNode = null;
 	
 	class Node{
