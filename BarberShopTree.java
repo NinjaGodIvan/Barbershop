@@ -195,23 +195,20 @@ public class BarberShopTree implements Serializable{
 			printInOrder(n.left);
 		}
 	}
-	//--
+	//-- Gyasi Mose --
 	public int sizeTree() {
-		i = 0;
+		int i = 0;
 		if (!isEmpty())
-			return sizeTree((i+1), root);
+			return sizeTree(i, root);
 		else
 			return i;
 	}
-	private int sizeTree(int i, node n) {
-		if (!= null) {
-			i++;
-			int sizeRight = sizeTree(i, n.right);
-			int sizeLeft = sizeTree(i, n.left);
-			if (sizeRight > sizeLeft)
-				return sizeRight;
-			else
-				return sizeLeft;
+	
+	private int sizeTree(int i, Node n) {
+		if (n != null) {
+			i = sizeTree(i, n.right);
+			i = i+1;
+			i = sizeTree(i, n.left);
 		}
 		return i;
 	}
@@ -220,16 +217,26 @@ public class BarberShopTree implements Serializable{
 		int size = sizeTree();
 		if (size != 0) {
 			BarberShopInfo[] barberShopList = new BarberShopInfo[size];
-			return getBarberShopList(root,0,barberShopList);
+			getBarberShopList(root,0,barberShopList);
+			return barberShopList;
 		}
 		return null;
 	}
-	public BarberShopInfo[] getBarberShopList(Node n, int i, BarberShopInfo[] list) {
-		return getBarberShopList(n.right, i, list);
-		list[i++] = n.info;
-		return getBarberShopList(n.left, i, list);
+	public int getBarberShopList(Node n, int i, BarberShopInfo[] list) {
+		if (n!= null) {
+			i = getBarberShopList(n.right, i, list);
+			list[i++] = n.info;
+			i = getBarberShopList(n.left, i, list);
+		}
+		return i;
 	}
-	//--
+	
+	public void printBarberShopList(BarberShopInfo[] list) {
+		for (BarberShopInfo i: list) {
+			System.out.println(i);
+		}
+	}	
+	//-- Gyasi Mose --
 	private boolean isEmpty() {
 		if (root == null) {
 			return true;		
