@@ -1,55 +1,52 @@
-package userInfo;
 import java.io.Serializable;
 
 public class CustomerInfo implements Serializable {
+	private String name;
+	private String email;
 	private String userName;
-	private String customerName;
-	private String customerEmail;
-	private int customerPhone;
-
-	public CustomerInfo(String userName, String customerName, String customerEmail, int customerPhone) {
-		super();
+	private String password;
+	private long phone;
+	boolean isBarber;
+	BarberShopInfo info;
+	
+	CustomerInfo(String name,String userName,String email,long phone,String password) {
+		this.name = name;
 		this.userName = userName;
-		this.customerName = customerName;
-		this.customerEmail = customerEmail;
-		this.customerPhone = customerPhone;
+		this.email = email;
+		this.phone = phone;
+		this.password = password;
+		this.isBarber = false;
+		this.info = null;
 	}
-
+	
+	CustomerInfo(String userName) { // just a test constructor
+		this("test", userName,"test",5555,"no password");
+	}
+	
+	CustomerInfo(String userName, String password) { // just a test constructor
+		this("test", userName,"test",5555,password);
+	}	
+	
+	public void makeBarber(BarberShopInfo info) {
+		if (info != null) {
+			this.isBarber = true;
+			this.info = info;
+		}
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	
+	public String getEmail() {
+		return email;
 	}
-
-	public String getCustomerName() {
-		return customerName;
+	
+	public String getPassword() {
+		return password;
 	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public String getCustomerEmail() {
-		return customerEmail;
-	}
-
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
-	}
-
-	public int getCustomerPhone() {
-		return customerPhone;
-	}
-
-	public void setCustomerPhone(int customerPhone) {
-		this.customerPhone = customerPhone;
-	}
-
-	@Override
+	
 	public String toString() {
-		return "CustomerInfo [userName=" + userName + ", customerName=" + customerName
-				+ ", customerEmail=" + customerEmail +  "]";
+		return "UserName: " + userName + ", PassWord: " + password;
 	}
 }
