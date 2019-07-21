@@ -146,8 +146,13 @@ public class BarberShop extends Thread {
 				 * Will have to change this to send notification through the app
 				 */
 				
-				System.out.print("Barber not found");
+				System.out.println("Barber not found");
 		}
+	}
+				
+	public void getWaitlist() {
+		String currentList = this.shopInfo.currentWaitlist.getCurrentWaitlist();
+		System.out.println( currentList );
 	}
 	// must add a method to locate and return the appointment calendar for the barbershop
 	/*
