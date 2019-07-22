@@ -1,4 +1,5 @@
 package com;
+import java.io.Serializable;
 
 /*	addNode(String) 				 ***for add Node to end of the Linked list
  *  insertNodeByIndex(int,String)    ***for insert the node to the linked list by the Index 
