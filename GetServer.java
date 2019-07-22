@@ -3,6 +3,7 @@ import java.io.*;
 
 public class GetServer {
 	InetAddress ip;
+	InetAddress ip2;
  //   ObjectOutputStream toServer; // serializes them
  //   ObjectInputStream fromServer; // deserializes data and objects
 	
@@ -109,11 +110,13 @@ public class GetServer {
 
 	private CustomerInfo findCustomerInfo(String userName, String password) {
 		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
+		packet = this.getInfo(packet);
 		return packet.getCustomer();
 	}	
 	
 	private BarberShopInfo findBarberShopInfo(String userName, String password) {
 		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
+		packet = this.getInfo(packet);
 		return packet.getBarberShop();
 	}
 	
@@ -154,7 +157,8 @@ public class GetServer {
 			this.sendInfo(info);
 			// serializes some object and sends
 			// getOutputStream returns an output stream from socket
-			Socket socket = new Socket(ip.getHostName(),4001);
+			this.ip2 = InetAddress.getLocalHost();
+			Socket socket = new Socket(ip2.getHostName(),4001);
 			ObjectInputStream fromServer = new ObjectInputStream(socket.getInputStream());
 			packet = (Packet)fromServer.readObject(); // writes state of object
 			fromServer.close();
