@@ -14,11 +14,11 @@ public class Customer extends Thread {
 	private GetServer server;
 	
 	public Customer(String userName, String name, String email, String phoneNum)
-		/* All this information except the last line should be only stored in the CustomerInfo class */
+		/* All this information except the last line should be only stored in the CustomerInfo class 
 		this.userName = userName; 
 		this.name = name;
 		this.email = email;
-		this.phoneNumber = phoneNum;
+		this.phoneNumber = phoneNum;*/
 		custInfo = server.getCustomerInfo(userName);
 	}
 	
