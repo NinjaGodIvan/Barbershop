@@ -35,7 +35,7 @@ public class Customer extends Thread {
 	}
 	
 	/** Function that changes the customer's phone number */
-	public void changePhone(String phoneNum) {
+	public void changePhone(long phoneNum) {
 		custInfo.setCustomerPhone(phoneNum);
 		server.giveCustomerInfo(this.custInfo);
 	}
