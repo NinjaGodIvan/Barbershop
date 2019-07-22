@@ -9,10 +9,10 @@ public class Appointment {
 	BarberInfo barber;
 		
 	/** Function that adds a customer's appointment */
-	public void makeAppointment(BarberInfo barber, CustomerInfo customer, Calendar appointment, int day, int month, int year, int min, int hour) {
+	public void makeAppointment(BarberInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour) {
 		
 		//Sets the customer's appointment based on the input
-		appointment = Calendar.getInstance();
+		Calendar appointment = Calendar.getInstance();
 		appointment.set(year, month - 1, day, hour, min, 0);
 		
 		//Gets current date for comparing year of the appointment and the current year
@@ -48,8 +48,8 @@ public class Appointment {
 			this.date = appointment; // assign appointment to the date of appointment
 			this.customer = customer; // assigning customer to appointment
 			this.barber = barber; // assigning barber to appointment
-			this.barber.appointments.add(this); // assigning appointment to barber
-			this.customer.custAppointment = this; // assigning appointment to customer
+			//this.barber.appointments.add(this); // assigning appointment to barber
+			//this.customer.custAppointment = this; // assigning appointment to customer
 			System.out.println("Success! Your appointment had been added!");
 		}
 	}
@@ -76,9 +76,9 @@ public class Appointment {
 	}
 	
 	/** Function that outputs the customer's appointment date */
-	public void checkAppointment(Calendar cal, CustomerInfo info) {
+	public void checkAppointment(CustomerInfo info) {
 		
-		System.out.println(info.getUserName() + ", your appointment time is " + getAppointment(cal));
+		System.out.println(info.getUserName() + ", your appointment time is " + getAppointment());
 	}
 	
 	/** Function that cancels a customer's appointment */
