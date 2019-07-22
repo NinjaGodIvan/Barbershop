@@ -8,17 +8,18 @@ import java.io.Serializable;
 public class Customer extends Thread {
 	
 	//Customer's appointment date, their information, and barber shop
-	private Appointment appt;
+	public Appointment appt;
 	private String barberShop;
 	private CustomerInfo custInfo;
 	private GetServer server;
 	
-	public Customer(String userName, String name, String email, String phoneNum)//-- {
-		this.userName = userName;
+	public Customer(String userName, String name, String email, String phoneNum)
+		/* All this information except the last line should be only stored in the CustomerInfo class */
+		this.userName = userName; 
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNum;
-		custInfo = server.getCustomerInfo(); //--
+		custInfo = server.getCustomerInfo(userName);
 	}
 	
 	/** Function that asks user for the name of the barbershop and sets it */
@@ -45,18 +46,10 @@ public class Customer extends Thread {
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
-	/** Function that works with the Appointment class.
-	 *  Used to have the customer make an appointment
-	 */
-	public void getAppointment() {
-		
-	}
-	
 	/** Function that gets the account from the server */
 	public void getAccount() {
 		//Code this
 	}
-	public 
 	
 	/** Function that changes the customer's barber shop name */
 	public void changeBarber(String barberShop) {
@@ -67,5 +60,4 @@ public class Customer extends Thread {
 	public String getBarber() {
 		return this.barberShop;
 	}
-	
 }
