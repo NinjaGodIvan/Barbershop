@@ -13,14 +13,30 @@ public class Customer extends Thread {
 	private CustomerInfo custInfo;
 	private GetServer server;
 	
+	/*
 	public Customer(String userName, String name, String email, String phoneNum)
 		/* All this information except the last line should be only stored in the CustomerInfo class 
 		this.userName = userName; 
 		this.name = name;
 		this.email = email;
-		this.phoneNumber = phoneNum;*/
+		this.phoneNumber = phoneNum;
 		custInfo = server.getCustomerInfo(userName);
 	}
+*/
+	
+	public Customer(CustomerInfo info) {
+		
+	}
+	
+	public void makeAppointment()
+		
+	public Appointment findAppointment()
+		
+	public void updateCustomer() // updates customerInfo object by asking for new one from server
+	
+	public void sendCustomer() // updates server customerInfo
+	
+	
 	
 	/** Function that asks user for the name of the barbershop and sets it */
 	public void setBarberShop() {
