@@ -3,7 +3,7 @@ import java.io.*;
 
 public class SaveAndLoad {
 	
-	String filename = "data.txt";
+	String filename = "storage.txt";
 	
 	public void SaveData(Tree tree) {
 		
