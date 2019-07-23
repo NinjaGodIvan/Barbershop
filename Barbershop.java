@@ -2,28 +2,11 @@
 import BarbershopInfo;
 
 public class BarberShop extends Thread {
-	String shopName;
-	String shopAddr; // Address of location
-	String shopOwner;
-	long shopPhone; // phone # for contact
-	String email;
-	String webAddr; // website url
-	String shopUserName; // user name of application shop account
-	CustomerInfo[] barberStaff; // for unambiguity, maybe change data type to barberId
-	BarberShopInfo shopInfo;
-	GetServer getServer;
-	
-	
-	/* to add to constructor::
-	 * BarberID[] :: array of barbers who work for barber shop
-	 *
-	 */
+	private GetServer getServer;
+	public CustomerInfo[] barberStaff; // for unambiguity, maybe change data type to barberId
+	public BarberShopInfo shopInfo;
+
 	BarberShop(BarberShopInfo shopInfo) {
-		this.shopName = shopInfo.getName();
-		this.shopAddr = shopInfo.getAddress();
-		this.shopPhone = shopInfo.getPhone();
-		this.email = shopInfo.getEmail();
-		this.shopUserName = shopInfo.getUserName();
 		this.barberStaff = null;
 		this.shopInfo = shopInfo;
 		this.getServer = new GetServer();
@@ -63,25 +46,20 @@ public class BarberShop extends Thread {
 	
 	//setters
 	public void setShopName(String name) {
-		this.shopName = name;
 		this.shopInfo.setName(name);
 	}
 	public void setAddr(String addr) {
-		this.shopAddr = addr;
 		this.shopInfo.setAddress(addr);
 	}
 
 	public void setPhone(long phone) {
-		this.shopPhone = phone;
 		this.shopInfo.setPhone(phone);
 	}
 	public void setEmail(String email) {
-		this.email = email;
 		this.shopInfo.setEmail(email);
 	}
 
 	public void setUserName(String userName) {
-		this.shopUserName = userName;
 		this.shopInfo.setName(userName);
 	}
 	public void setPassword(String password) {
@@ -103,9 +81,7 @@ public class BarberShop extends Thread {
 	}
 	@Override
 	public String toString() {
-		return "Barbershop [shopName=" + shopName + ", shopAddr=" + shopAddr
-				+ ", shopPhone=" + shopPhone + ", email=" + email + ", shopUserName="
-				+ shopUserName + "]";
+		return "Barbershop " + this.shopInfo.toString();
 	}
 	
 	public String getShopContactInfo() {
