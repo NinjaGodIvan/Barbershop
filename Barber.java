@@ -5,7 +5,7 @@ import java.util.Scanner;
 // Chao's credit: From this line to the end of the toString function
 public class Barber
 {
-	
+	/*
 	private String userName;
 	private String password;
 	private String barberName;
@@ -14,7 +14,8 @@ public class Barber
 	// Phil credit: These 2 lines
 	boolean availability;
 	String status;
-	
+	*/
+	/*
 	
 	public Barber(String userName, String barberName, String barberEmail, int barberPhone, boolean availability, String status) 
 	{	
@@ -27,7 +28,30 @@ public class Barber
 		this.status = status;
 		BarberInfo(this.username, this.barberName, this.barberEmail, this.barberPhone);
 	}
-
+	*/
+	GetServer server;
+	CustomerInfo info;
+	Appointment appointment;
+	
+	public Barber(CustomerInfo info) {
+		server = new GetServer();
+	}
+	
+	public void addAppointment() {
+		
+	}
+	
+	public void setAppointment() {
+		
+	}
+	
+	public void updateCustomer() { // resets customerInfo object, asks server for a new one
+		
+	}
+	public void sendCustomer() {// update server's CustomerInfo
+		
+	}
+	
 	public String getUserName() 
 	{
 		return userName;
