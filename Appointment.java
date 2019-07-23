@@ -4,9 +4,9 @@ package barber;
 import java.util.Calendar;
 
 public class Appointment {
-	Calendar date;
-	CustomerInfo customer;
-	BarberInfo barber;
+	private Calendar date;
+	private CustomerInfo customer;
+	public BarberInfo barber;
 		
 	/** Function that adds a customer's appointment */
 	public void makeAppointment(BarberInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour) {
