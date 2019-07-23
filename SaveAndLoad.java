@@ -27,7 +27,7 @@ public class SaveAndLoad {
 		}	
 	}
 	
-	public Tree LoadData() {
+	public Tree LoadTreeData() {
 		
 		Tree loadTree = null;
 		
@@ -35,6 +35,22 @@ public class SaveAndLoad {
 			
 			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename));
 			loadTree = (Tree) loadData.readObject();
+			loadData.close();
+		
+		}catch(Exception e) {
+			System.out.println("Unable to load data.");
+		}		
+		return loadTree;
+	}
+	
+	public BarberShopTree LoadBarberShopTreeData() {
+		
+		BarberShopTree loadTree = null;
+		
+		try {
+			
+			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename));
+			loadTree = (BarberShopTree) loadData.readObject();
 			loadData.close();
 		
 		}catch(Exception e) {
