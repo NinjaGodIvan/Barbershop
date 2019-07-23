@@ -45,10 +45,10 @@ public class Barber
 		
 	}
 	
-	public void updateCustomer() { // resets customerInfo object, asks server for a new one
+	public void updateBarber() { // resets customerInfo object, asks server for a new one
 		
 	}
-	public void sendCustomer() {// update server's CustomerInfo
+	public void sendBarber() {// update server's CustomerInfo
 		
 	}
 	
