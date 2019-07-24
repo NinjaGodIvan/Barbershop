@@ -1,11 +1,18 @@
+//package barber;
 import java.util.Calendar;
 
 public class Appointment {
-	private Calendar date;
-	private CustomerInfo customer;
-	CustomerInfo barber;	
+	Calendar date;
+	CustomerInfo customer;
+	BarberInfo barber;
+	int am_pm; //1. AM; 2. PM
+	
+	
 	/** Function that adds a customer's appointment */
-	public void makeAppointment(CustomerInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour) {
+	public void makeAppointment(BarberInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour, int am_pm) {
+		
+		//Sets either AM or PM
+		this.am_pm = am_pm;
 		
 		//Sets the customer's appointment based on the input
 		Calendar appointment = Calendar.getInstance();
@@ -44,7 +51,7 @@ public class Appointment {
 			this.date = appointment; // assign appointment to the date of appointment
 			this.customer = customer; // assigning customer to appointment
 			this.barber = barber; // assigning barber to appointment
-			//this.barber.appointments.add(this); // assigning appointment to barber
+			//this.barber.appointment.add(this); // assigning appointment to barber
 			//this.customer.custAppointment = this; // assigning appointment to customer
 			System.out.println("Success! Your appointment had been added!");
 		}
@@ -68,22 +75,24 @@ public class Appointment {
 				month = months[monthInInt - 1];
 			}
 		
-		return month + " " + day + ", " + year + " " + hour + ":" + min;
+		if(am_pm == 1)
+			return month + " " + day + ", " + year + " at " + hour + ":" + min + "AM";
+		else
+			return month + " " + day + ", " + year + " at " + hour + ":" + min + "PM";
 	}
 	
 	/** Function that outputs the customer's appointment date */
 	public void checkAppointment(CustomerInfo info) {
-		
 		System.out.println(info.getUserName() + ", your appointment time is " + getAppointment());
 	}
 	
 	/** Function that cancels a customer's appointment */
-	public void cancelAppointment() {
-		
-		//Code this
+	public void cancelAppointment(Customer cust) {
+		cust.appt.date.clear();
 	}
+	
 	@Override
 	public String toString() {
-		return "Appointment [date=" + date + ", customer=" + customer + ", barber=" + barber + "]";
+		return "Appointment [date=" + getAppointment() + ", customer=" + customer + ", barber=" + barber + "]";
 	}
 }
