@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 //package userInfo;
 
@@ -12,8 +13,6 @@ public class Barber
 	private String barberEmail;
 	private int barberPhone;
 	// Phil credit: These 2 lines
-	boolean availability;
-	String status;
 	*/
 	/*
 	
@@ -29,6 +28,8 @@ public class Barber
 		BarberInfo(this.username, this.barberName, this.barberEmail, this.barberPhone);
 	}
 	*/
+	boolean availability;
+	String status;	
 	GetServer server;
 	CustomerInfo info;
 	Appointment appointment;
@@ -51,7 +52,7 @@ public class Barber
 	public void sendBarber() {// update server's CustomerInfo
 		
 	}
-	
+	/*
 	public String getUserName() 
 	{
 		return userName;
@@ -94,7 +95,8 @@ public class Barber
 		return "BarberInfo [userName=" + userName + ", barberName=" + barberName + ", barberEmail=" + barberEmail
 				+ ", barberPhone=" + barberPhone + "]";
 	}
-	
+	*/
+	/*
 	// Phil credit: for all of the rest
 	public void nextCustomerFromWaitlist()
 	{
@@ -102,7 +104,7 @@ public class Barber
 		WaitList waitlist = new WaitList(tes);
 		System.out.println("The next person up is: " + waitlist.waitListPop());
 	}
-	
+	*/
 	public void takeBreak() 
 	{
 		this.availability = false;
@@ -129,7 +131,7 @@ public class Barber
 		
 		if (choice == 1) 
 		{
-			nextCustomerFromWaitlist();
+//			nextCustomerFromWaitlist();
 		} else if (choice == 2) 
 		{
 			takeBreak();
@@ -142,7 +144,7 @@ public class Barber
 			menu();
 		}
 	}
-	
+	/*
 	public void changePassword() 
 	{
 		// input from user turns into new password, sent to database
@@ -183,13 +185,11 @@ public class Barber
 		
 		
 	}
-	
+	*/
 	public void makeAppointment()
 	{
 		
 		
 	}
 	
-	}
-	
-	
+}
