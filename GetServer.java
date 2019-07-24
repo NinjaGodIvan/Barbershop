@@ -110,14 +110,12 @@ public class GetServer {
 
 	private CustomerInfo findCustomerInfo(String userName, String password) {
 		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
-		packet = this.getInfo(packet);
-		return packet.getCustomer();
+		return this.getInfo(packet).getCustomer();
 	}	
 	
 	private BarberShopInfo findBarberShopInfo(String userName, String password) {
 		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
-		packet = this.getInfo(packet);
-		return packet.getBarberShop();
+		return this.getInfo(packet).getBarberShop();
 	}
 	
 	/* returns true of connected returns false otherwise
