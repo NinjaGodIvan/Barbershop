@@ -1,6 +1,4 @@
-/* Implementation is incomplete. Still need to put more */
 
-package barber;
 import java.util.Calendar;
 import java.util.Scanner;
 import java.io.Serializable;
@@ -13,6 +11,10 @@ public class Customer extends Thread {
 	private CustomerInfo custInfo;
 	private GetServer server;
 	
+	public Customer(CustomerInfo info) {
+		this.custInfo = info;
+	}
+	
 	/*
 	public Customer(String userName, String name, String email, String phoneNum)
 		/* All this information except the last line should be only stored in the CustomerInfo class 
@@ -24,17 +26,34 @@ public class Customer extends Thread {
 	}
 */
 	
-	public Customer(CustomerInfo info) {
+	public void run() {
+		while (true) {
+			try {
+				CustomerInfo temp = server.getCustomerInfo(custInfo.getUserName());
+				if (temp != null)
+					this.custInfo = temp; 
+				sleep(15000);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}	
+	}
+
+	
+	public void makeAppointment() {
+		
+	}
+		
+//	public Appointment findAppointment() {
+//	}
+		
+	public void updateCustomer()  { // updates customerInfo object by asking for new one from server
 		
 	}
 	
-	public void makeAppointment()
+	public void sendCustomer() {// updates server customerInfo
 		
-	public Appointment findAppointment()
-		
-	public void updateCustomer() // updates customerInfo object by asking for new one from server
-	
-	public void sendCustomer() // updates server customerInfo
+	}
 	
 	
 	
@@ -77,3 +96,4 @@ public class Customer extends Thread {
 		return this.barberShop;
 	}
 }
+ 
