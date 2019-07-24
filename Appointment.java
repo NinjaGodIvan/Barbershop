@@ -1,15 +1,11 @@
-/* Implementation is incomplete. Still need to put more */
-
-package barber;
 import java.util.Calendar;
 
 public class Appointment {
 	private Calendar date;
 	private CustomerInfo customer;
-	public BarberInfo barber;
-		
+	CustomerInfo barber;	
 	/** Function that adds a customer's appointment */
-	public void makeAppointment(BarberInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour) {
+	public void makeAppointment(CustomerInfo barber, CustomerInfo customer, int day, int month, int year, int min, int hour) {
 		
 		//Sets the customer's appointment based on the input
 		Calendar appointment = Calendar.getInstance();
