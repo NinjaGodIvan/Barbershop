@@ -27,7 +27,7 @@ public class Customer extends Thread {
 			System.out.println("2. Check your appointment");
 			System.out.println("3. Cancel your appointment");
 			System.out.println("4. Exit");
-			System.out.print("Enter choice (1-3): ");
+			System.out.print("Enter choice (1-4): ");
 			choice = in.nextInt();
 		
 			if(choice == 1){
