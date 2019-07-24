@@ -132,7 +132,8 @@ public class BarberShop extends Thread {
 		System.out.println( currentList );
 	}
 	public void getBarberList() {
-		
+		for (CustomerInfo b : this.info.barberList)
+			System.out.println( b );
 	}
 	// must add a method to locate and return the appointment calendar for the barbershop
 	/*
