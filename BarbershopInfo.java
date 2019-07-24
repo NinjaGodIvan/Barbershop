@@ -76,4 +76,8 @@ public class BarberShopInfo implements Serializable {
 	public String toString() {
 		return "Name" + userName;
 	}
+	public void getBarberList() {
+		for (CustomerInfo b : barberList)
+			System.out.println( b );
+	}
 }
