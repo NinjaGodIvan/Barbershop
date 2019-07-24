@@ -8,6 +8,7 @@ public class BarberShopInfo implements Serializable {
 	private String password;
 	private String address;
 	public Waitlist currentList;
+	public CustomerInfo[] barberList;
 	LinkedList messages;
 	
 	BarberShopInfo(String name,String userName,String email,long phone,String password) {
@@ -69,7 +70,9 @@ public class BarberShopInfo implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public void updateBarberList(CustomerInfo[] barbers) {
+		this.barberList = barbers;
+	}
 	public String toString() {
 		return "Name" + userName;
 	}
