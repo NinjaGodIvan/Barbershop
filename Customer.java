@@ -10,7 +10,7 @@ public class Customer extends Thread {
 	public CustomerInfo custInfo; /* Testing purposes */
 	private GetServer server;
 	
-	//Testing the interface method
+	//Presentation purposes
 	public static void main(String [] args) {
 		
 		Scanner in = new Scanner(System.in);
@@ -68,67 +68,6 @@ public class Customer extends Thread {
 				System.exit(0);
 			}
 		}
-	}
-	
-	//Interface Representation method (for presentation purposes [delete this soon])
-	public static void CustomerAppointmentMenuDemo(String [] args) {
-		
-		Scanner in = new Scanner(System.in);
-		
-		Customer cust = new Customer();
-		BarberInfo barbInfo = null;
-				
-		while(true) {
-				
-			int choice;
-		
-			System.out.println("------MAIN MENU------");
-			System.out.println("1. Make your appointment");
-			System.out.println("2. Check your appointment");
-			System.out.println("3. Cancel your appointment");
-			System.out.println("4. Exit");
-			System.out.print("Enter choice (1-3): ");
-			choice = in.nextInt();
-		
-			if(choice == 1){
-					//Creates an appointment for the customer
-					System.out.print("Enter day: ");
-					int day = in.nextInt();
-					System.out.print("Enter month: ");
-					int mon = in.nextInt();
-					System.out.print("Enter year: ");
-					int year = in.nextInt();
-					System.out.print("Enter min: ");
-					int min = in.nextInt();
-					System.out.print("Enter hour: ");
-					int hr = in.nextInt();
-					System.out.print("Enter 1 (AM) or 2 (PM): "); 
-					int am_pm = in.nextInt();
-					cust.appt = new Appointment();
-					cust.makeAppointment(barbInfo, cust, day, mon, year, min, hr, am_pm);
-			}
-			else if(choice == 2){
-				if(cust.appt == null)
-					System.out.println("You do not have an appointment to check. Please make one.");
-				else
-					cust.appt.checkAppointment(cust.custInfo);
-			}
-			else if(choice == 3){
-				if(cust.appt == null)
-					System.out.println("You do not have an appointment to cancel. Please make one.");
-				else {
-					cust.appt.cancelAppointment(cust);
-					System.out.println("Your appointment has been canceled.");
-					cust.appt = null;
-				}
-			}
-			else {
-				System.out.println("Thank you for using us!");
-				in.close();
-				System.exit(0);
-			}
-		}
-
 	}
 	
 	//Empty Customer constructor
