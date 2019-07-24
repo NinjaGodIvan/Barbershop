@@ -96,8 +96,7 @@ public class GetServer {
 	*/	
 	public boolean createBarberShopAccount(BarberShopInfo info) {
 		if (this.findBarberShopInfo(info.getUserName(),info.getPassword()) == null) {
-			this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
-			return true;
+			return this.sendInfo(new Packet(info,RequestEnum.Request.giveData));
 		} else {
 			System.out.println("ACCOUNT EXISTS");
 		}		
@@ -114,7 +113,7 @@ public class GetServer {
 	}	
 	
 	private BarberShopInfo findBarberShopInfo(String userName, String password) {
-		Packet packet = new Packet((new CustomerInfo(userName,password)),RequestEnum.Request.findData);
+		Packet packet = new Packet((new BarberShopInfo(userName,password)),RequestEnum.Request.findData);
 		return this.getInfo(packet).getBarberShop();
 	}
 	
