@@ -97,6 +97,7 @@ public class BarberShop extends Thread {
 			barberStaff = temp;
 			barberStaff[barberStaff.length] = info;
 		}
+		updateBarberList(barberStaff);
 	}
 	
 	public void removeBarberFromStaff(String userName) {
@@ -129,6 +130,9 @@ public class BarberShop extends Thread {
 	public void getWaitlist() {
 		String currentList = this.shopInfo.currentWaitlist.getCurrentWaitlist();
 		System.out.println( currentList );
+	}
+	public void getBarberList() {
+		
 	}
 	// must add a method to locate and return the appointment calendar for the barbershop
 	/*
