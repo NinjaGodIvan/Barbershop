@@ -18,8 +18,8 @@ class Waitlist implements Serializable {
 			this.size++;
 		}
 		else {
-			CustomerInfo[] temp = new CustomerInfo[listSize() + 1];
-			temp[listSize()] = cInfo;
+			CustomerInfo[] temp = new CustomerInfo[this.size + 1];
+			temp[this.size] = cInfo;
 			list = temp;			
 		}		
 	}
@@ -28,13 +28,13 @@ class Waitlist implements Serializable {
 	}
 	public String getCurrentWaitlist() {
 		String currentWaitlist = "";
-		for(int i = 0; i < listSize(); i++) {
+		for(int i = 0; i < this.size; i++) {
 			currentWaitlist += (list[i].toString() + "\n");
 		}
 		return currentWaitlist;
 	}
 	public String estimateWait() {
-		double waitTime = (listSize()*30)/60;
+		double waitTime = (this.size*30)/60;
 		return "Wait time is " + "%.1f" + waitTime + "hrs";
 	}
 	public CustomerInfo getNext() {
@@ -42,7 +42,7 @@ class Waitlist implements Serializable {
 		if(list != null) {
 			next = list[0];
 			CustomerInfo[] temp= new CustomerInfo[listSize() -1];
-			for(int i = 0, j = 1; j < listSize(); i++, j++) {
+			for(int i = 0, j = 1; j < this.size; i++, j++) {
 				temp[i] = list[j];
 			}
 			list = temp;
