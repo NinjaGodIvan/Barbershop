@@ -20,7 +20,8 @@ class Waitlist implements Serializable {
 		else {
 			CustomerInfo[] temp = new CustomerInfo[this.size + 1];
 			temp[this.size] = cInfo;
-			list = temp;			
+			list = temp;
+			this.size++;
 		}		
 	}
 	public int listSize() {
@@ -54,7 +55,6 @@ class Waitlist implements Serializable {
 		
 		String customerContact = nextCustomer.getPhoneNumber();// get customer phone number and notify
 		// notify customer of appointment
-		nextCustomer.notifyCustomer(customerContact);
 		return nextCustomer; // return customer ID to the requesting barbershop
 	}	
 }
