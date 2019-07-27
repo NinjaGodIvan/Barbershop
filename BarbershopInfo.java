@@ -19,6 +19,7 @@ public class BarberShopInfo implements Serializable {
 		this.phone = phone;
 		this.password = password;
 		this.address = "nothing for now";
+		
 		this.messages = new LinkedList();
 	}
 	
@@ -57,7 +58,16 @@ public class BarberShopInfo implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	
+	public Appointment[] getAppointmentArray() {
+		return this.appointmentList;
+	}
+	public String getAppointments() {
+		String allAppointments  = "";
+		for(Appointment a : appointmentList) {
+			allAppointments += a.toString() + "\n";
+		}
+		return allAppointments;
+	}
 	public String toString() {
 		return "Name" + userName;
 	}
