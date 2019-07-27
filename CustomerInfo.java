@@ -67,7 +67,9 @@ public class CustomerInfo implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	
+	public void setAppointment(Appointment appt) {
+		this.appointment = appt;
+	}	
 	public String toString() {
 		return "UserName: " + userName + ", PassWord: " + password;
 	}
