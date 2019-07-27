@@ -60,6 +60,10 @@ public class CustomerInfo implements Serializable {
 		return userName;
 	}
 	
+	public Long getPhoneNumber() {
+		return phone;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -67,9 +71,7 @@ public class CustomerInfo implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	public void setAppointment(Appointment appt) {
-		this.appointment = appt;
-	}	
+	
 	public String toString() {
 		return "UserName: " + userName + ", PassWord: " + password;
 	}
