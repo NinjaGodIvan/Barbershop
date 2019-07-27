@@ -4,7 +4,7 @@ import java.util.Calendar;
 public class Appointment {
 	Calendar date;
 	CustomerInfo customer;
-	BarberInfo barber;
+	CustomerInfo barber;
 	int am_pm; //1. AM; 2. PM
 	
 	
@@ -51,8 +51,8 @@ public class Appointment {
 			this.date = appointment; // assign appointment to the date of appointment
 			this.customer = customer; // assigning customer to appointment
 			this.barber = barber; // assigning barber to appointment
-			//this.barber.appointment.add(this); // assigning appointment to barber
-			//this.customer.custAppointment = this; // assigning appointment to customer
+			this.barber.setAppointment(this); // assigning appointment to barber
+			this.customer.setAppointment(this); // assigning appointment to customer
 			System.out.println("Success! Your appointment had been added!");
 		}
 	}
