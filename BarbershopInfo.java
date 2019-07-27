@@ -7,6 +7,8 @@ public class BarberShopInfo implements Serializable {
 	private long phone;
 	private String password;
 	private String address;
+	CustomerInfo[] barberStaff;
+	Appointment[] appointmentList;
 	LinkedList messages;
 	public Waitlist currentList;
 	
