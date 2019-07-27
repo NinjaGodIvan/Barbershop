@@ -4,11 +4,11 @@ import BarbershopInfo;
 
 class Waitlist implements Serializable {
 	
-	private BarbershopInfo shopInfo;
+	private BarberShopInfo shopInfo;
 	private CustomerInfo[] list = null;
 	private int size = 0;
 	
-	public Waitlist(BarbershopInfo shopInfo) {
+	public Waitlist(BarberShopInfo shopInfo) {
 		this.shopInfo = shopInfo;
 		this.shopInfo.currentList = this;
 	}
@@ -52,8 +52,7 @@ class Waitlist implements Serializable {
 	}
 	public CustomerInfo waitListPop() {
 		CustomerInfo nextCustomer = this.getNext(); //get first customer on list, remove if non responsive.
-		
-		String customerContact = nextCustomer.getPhoneNumber();// get customer phone number and notify
+
 		// notify customer of appointment
 		return nextCustomer; // return customer ID to the requesting barbershop
 	}	
