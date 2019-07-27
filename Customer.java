@@ -6,30 +6,12 @@ public class Customer extends Thread {
 	//Customer's appointment date, their information, and barber shop
 	public Appointment appt;
 	private String barberShop;
-	//private CustomerInfo custInfo;
-	public CustomerInfo custInfo; /* Testing purposes */
+	public CustomerInfo custInfo;
 	private GetServer server;
 	
-	//Empty Customer constructor
-	public Customer() {
-		/* Testing Purposes */
-		custInfo = new CustomerInfo("Ivan", "Ninja God Ivan", "ivan123@yahoo.com", 5554412, "abc123");
-		barberShop = "Ultimate Barber Shop";
-	}
-	
-	public void makeAppointment(int day, int mon, int year, int min, int hr, int am_pm) {
-		
-		/* Testing Purposes */
-		BarberInfo barbInfo = new BarberInfo("Barber God 107", "Mike", "barber333@gmail.com", 4520918);
-		appt.makeAppointment(barbInfo, custInfo, day, mon, year, min, hr, am_pm);
-	}
-	
-	//Override Method for presentation (delete this soon)
-	public void makeAppointment(BarberInfo barbInfo, Customer cust, int day, int mon, int year, int min, int hr, int am_pm) {
-		
-		/* Testing Purposes */
-		barbInfo = new BarberInfo("Barber God 107", "Mike", "barber333@gmail.com", 4520918);
-		cust.appt.makeAppointment(barbInfo, cust.custInfo, day, mon, year, min, hr, am_pm);
+	public Customer(CustomerInfo info) {
+		this.custInfo = info;
+		new AppointmentUI(this); //Opens the Appointment UI when Customer is called
 	}
 	
 	public Appointment getAppointment() {
@@ -39,9 +21,7 @@ public class Customer extends Thread {
 	public void updateCustomer(CustomerInfo custInfo){ 
 		this.custInfo = custInfo;
 	}
-	
-	//public void sendCustomer() // updates server customerInfo*/
-	
+		
 	/** Function that asks user for the name of the barbershop and sets it */
 	public void setBarberShop() {
 		
@@ -56,13 +36,13 @@ public class Customer extends Thread {
 	
 	/** Function that changes the customer's phone number */
 	public void changePhone(long phoneNum) {
-		custInfo.setPhone(phoneNum);
+		custInfo.setCustomerPhone(phoneNum);
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
 	/** Function that changes the customer's phone number */
 	public void changeEmail(String email) {
-		custInfo.setEmail(email);
+		custInfo.setCustomerEmail(email);
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
@@ -92,4 +72,3 @@ public class Customer extends Thread {
 		return this.custInfo;
 	}
 }
- 
