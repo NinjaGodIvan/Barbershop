@@ -3,7 +3,7 @@ import CustomerInfo;
 import BarbershopInfo;
 
 class Waitlist implements Serializable {
-	
+	//uses barbershopInfo to manage the waitlist, as an array of customers. 
 	private BarbershopInfo shopInfo;
 	private CustomerInfo[] list = null;
 	private int size = 0;
@@ -12,7 +12,7 @@ class Waitlist implements Serializable {
 		this.shopInfo = shopInfo;
 		this.shopInfo.currentList = this;
 	}
-	public void addToWait(CustomerInfo cInfo) {
+	public void addToWait(CustomerInfo cInfo) { //put people into the array, increasing size each time.
 		if(list == null) {
 			list[0] = cInfo;
 			this.size++;
@@ -27,6 +27,7 @@ class Waitlist implements Serializable {
 	public int listSize() {
 		return this.size;
 	}
+	// returns a newline separated string of the waitlist customers, using toString method
 	public String getCurrentWaitlist() {
 		String currentWaitlist = "";
 		for(int i = 0; i < this.size; i++) {
@@ -34,7 +35,7 @@ class Waitlist implements Serializable {
 		}
 		return currentWaitlist;
 	}
-	public String estimateWait() {
+	public String estimateWait() { // estimate the wait time according to half hour increments.
 		double waitTime = (this.size*30)/60;
 		return "Wait time is " + "%.1f" + waitTime + "hrs";
 	}
@@ -56,5 +57,5 @@ class Waitlist implements Serializable {
 		String customerContact = nextCustomer.getPhoneNumber();// get customer phone number and notify
 		// notify customer of appointment
 		return nextCustomer; // return customer ID to the requesting barbershop
-	}	
+	}	// did not implement this functionality in final unfinished form
 }
