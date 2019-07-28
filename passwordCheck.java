@@ -1,4 +1,4 @@
-package checkString;
+
 
 // The password need to contain the number and lowercase and uppercase and Special symbols same time !
 // Ues the complexCheck(String) method to work! 
@@ -26,7 +26,7 @@ public class passwordCheck {
 		return true;
 	}
 	
-	public void complexCheck(String password) {
+	public boolean complexCheck(String password) {
 		int number=0 ,lowerCase=0,upperCase=0,symbols=0;
 		
 		if(passwordLengthCheck(password) && blankSpaceCheck(password)) {
@@ -47,11 +47,11 @@ public class passwordCheck {
 			}
 			int sum = number + lowerCase + upperCase + symbols;
 			if(sum == 4) {
-				System.out.println("This is a good password! " + password);
-			}else {
-				System.out.println("This password is not good one! " +password);
+				return true;
+				//System.out.println("This is a good password! " + password);
 			}
 		}
+		return false;
 		//System.out.println("Please check the password length and password can not contain blank space!!!")
 	}
 	
