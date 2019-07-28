@@ -160,6 +160,7 @@ class signUpJFrame extends JFrame implements ActionListener{
 		setVisible(true);
 		
 	}
+	
 	public static void main(String[] args) {
 			
 		new signUpJFrame();
@@ -205,8 +206,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		logInPanel = new JPanel();
 		
@@ -216,8 +217,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
 		
-		LogInButton.addActionListener(this); 
-		
+		//LogInButton.addActionListener(this); 
+		LogInButton.addActionListener(new aButtonHandler());
 		add(logInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to log in  !");
@@ -235,7 +236,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			
+			//JOptionPane.showMessageDialog(null, name);
 			CustomerInfo customerInfo = getServer.getCustomerInfo(name,password);
 			if (customerInfo == null) {
 				System.out.println("ACCOUNT DOESNT EXIST");
@@ -252,7 +253,9 @@ class customerlogFrame extends JFrame implements ActionListener{
 		
 	}
 	
+	
 }
+
 
 class barberlogFrame extends JFrame implements ActionListener{
 	private JButton LogInButton;
@@ -269,8 +272,8 @@ class barberlogFrame extends JFrame implements ActionListener{
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		logInPanel = new JPanel();
 		
@@ -329,8 +332,8 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		logInPanel = new JPanel();
 		
@@ -387,8 +390,8 @@ class barberSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		signInPanel = new JPanel();
 		
@@ -414,8 +417,11 @@ public static void main(String[] args) {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == signInButton) {
-			String name = userNameTextField.getText();
-			String password = passWordTextField.getText();
+			 //serNameTextField.setText("a");
+			String name =userNameTextField.getText();
+			
+			 //passWordTextField.setText("a");
+			 String password =  passWordTextField.getText();
 			CustomerInfo temp = new CustomerInfo(name,password);
 			temp.isBarber = true;
 			boolean test = getServer.createCustomerInfoAccount(temp);
@@ -445,8 +451,8 @@ class customerSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		signInPanel = new JPanel();
 		
@@ -500,8 +506,8 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		JTextField userNameTextField = new JTextField(10); 
-		JTextField passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(10); 
+		passWordTextField = new JTextField(10); 
 		
 		signInPanel = new JPanel();
 		
