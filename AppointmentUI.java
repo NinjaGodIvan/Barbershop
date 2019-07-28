@@ -1,5 +1,3 @@
-//Upload this
-package barber;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,22 +5,20 @@ import java.awt.event.*;
 @SuppressWarnings("serial")
 public class AppointmentUI extends JFrame{
 	
-	JPanel MainMenu_panel, MakeAppointment_panel, CheckAppointment_panel, CancelAppointment_panel, InvalidInputMessage_panel, Success_panel;
+	JPanel MainMenu_panel, MakeAppointment_panel, CheckAppointment_panel, CancelAppointment_panel, InvalidInputMessage_panel, Success_panel, AreYouSure_panel;
 	JPanel button_panel;
 	JButton makeAppointment_button, checkAppointment_button, cancelAppointment_button;
-	GridBagConstraints pos;
-	
-	/* Testing Customer object */
-	Customer customer;
+	GridBagConstraints pos; //Used to position JComponents
+	Customer customer; //Needs customer object to make appointment and display customer's username
 	
 	//1. Main Menu Panel (Start Panel too!)
 	public JPanel MainMenuPanel() {
 		
 		MainMenu_panel = new JPanel();
-		
+				
 		//Message Display
 		JLabel message = new JLabel("Hello " + customer.custInfo.getUserName() +"! Select your option:");
-		message.setFont(new Font("Arial", Font.BOLD, 30));
+		message.setFont(new Font("Arial", Font.BOLD, 25));
 		MainMenu_panel.add(message);
 		
 		//Three buttons (Make Appointment, Check Appointment, Cancel Appointment)
@@ -59,18 +55,27 @@ public class AppointmentUI extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				MainMenu_panel.removeAll();
-				JPanel CancelAppointment_panel = CancelAppointmentPanel();
-				add(CancelAppointment_panel);
-				CancelAppointment_panel.repaint();
-				CancelAppointment_panel.revalidate();
-
+				if(customer.appt != null) {
+					//Should go to the Are You Sure Panel
+					MainMenu_panel.removeAll();
+					JPanel panel = AreYouSurePanel();
+					add(panel);
+					panel.repaint();
+					panel.revalidate();
+				}else {
+					//Should go to the Cancel Appointment panel and display an error message
+					MainMenu_panel.removeAll();
+					JPanel panel = CancelAppointmentPanel();
+					add(panel);
+					panel.repaint();
+					panel.revalidate();
+				}
 			}
 		});
 		
 		//Used to position buttons
 		pos = new GridBagConstraints();
-		pos.insets = new Insets(50,50,50,50);
+		pos.insets = new Insets(40,40,40,40);
 		
 		button_panel.add(makeAppointment_button, pos);
 		button_panel.add(checkAppointment_button, pos);
@@ -294,11 +299,11 @@ public class AppointmentUI extends JFrame{
 			}
 		});
 		
-		pos = new GridBagConstraints();
-		pos.insets = new Insets(50,50,50,50);
 		
+		//pos = new GridBagConstraints();
+		//pos.insets = new Insets(50,50,50,50);
 		button_panel.add(MainMenuButton, pos);
-
+		
 		CheckAppointment_panel.add(MainMenuButton);
 		
 		return CheckAppointment_panel;
@@ -403,7 +408,6 @@ public class AppointmentUI extends JFrame{
 		return InvalidInputMessage_panel;
 	}
 	
-	
 	//7. Success Panel (If the user successfully create an appointment, go to this panel).
 	public JPanel SuccessPanel1() {
 		 
@@ -435,11 +439,51 @@ public class AppointmentUI extends JFrame{
 		return Success_panel;
 	}
 		
+	//8. Are You Sure Panel (Checks if the customer is sure to remove the appointment)
+	public JPanel AreYouSurePanel() {
+		
+		AreYouSure_panel = new JPanel();
+		JLabel text = new JLabel("Do you want to cancel your appointment?");
+		text.setFont(new Font("Arial", Font.BOLD, 20));
+		AreYouSure_panel.add(text);
+		
+		//If clicked yes, cancel the appointment
+		JButton yes = new JButton("Yes");
+		yes.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				//Should go to the Cancel Appointment Panel to remove appointment and display a successful message
+				AreYouSure_panel.removeAll();
+				JPanel panel = CancelAppointmentPanel();
+				add(panel);
+				panel.repaint();
+				panel.revalidate();
+			}
+		});
+		
+		//Else, go back to the main menu
+		JButton no = new JButton("No");
+		no.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				AreYouSure_panel.removeAll();
+				JPanel panel = MainMenuPanel();
+				add(panel);
+				panel.repaint();
+				panel.revalidate();
+			}
+		});
+		
+		AreYouSure_panel.add(yes);
+		AreYouSure_panel.add(no);
+
+		return AreYouSure_panel;
+	}
 	
 	public AppointmentUI(Customer cust) {
 		
 		//Gets customer's account and info to make appointment
-		this.customer = cust;
+		this.customer = cust; 
 
 		//Program starts with the main menu panel
 		JPanel startPanel = MainMenuPanel();
@@ -449,6 +493,7 @@ public class AppointmentUI extends JFrame{
 		setSize(900, 500);
 		setTitle("Ultimate Barbershop App");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }
