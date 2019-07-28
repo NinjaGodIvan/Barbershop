@@ -153,7 +153,33 @@ public class Tree {
 		}
 		return null;		
 	}
-	
+	public CustomerInfo returnInfo(String userName) {
+		if(inTree(userName)) {
+			Node n = root;
+			String nodeName = n.getName();
+			if (nodeName.compareTo(userName) == 0)
+				return n.info;
+			else {
+				if(n.left != null)
+					return returnInfo(userName, n.left);
+				if(n.right != null)
+					return returnInfo(userName, n.right);
+			}
+		}
+		return null;
+	}
+	private CustomerInfo returnInfo(String userName, Node n) {
+		String nodeName = n.getName();
+		if (nodeName.compareTo(userName) == 0)
+			return n.info;
+		else {
+			if(n.left != null)
+				return returnInfo(userName, n.left);
+			if(n.right != null)
+				return returnInfo(userName, n.right);
+		}
+		return null;
+	}
 	public boolean inTree(String userName) {
 		Node n = root;
 		String nodeName = n.getName();
