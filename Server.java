@@ -14,24 +14,22 @@ import java.io.Serializable;
 public class Server extends Thread {
 	CleanBuffer cleanBuffer;
 	ServerSocket server;
-	ServerSocket exportPort; // used for sending messages back to client
-	Tree tree;
-	BarberShopTree barberShopTree;		
+	ServerSocket exportPort; // used for sending messages back to client		
 //	CircularBuffer<AddData> addDataBuffer;
 	AddData addData;
+	BarberShopTree globalBarberShopTree;
 	CircularBuffer<ReturnData> sendDataBuffer;
 	CircularBuffer<GetData> getDataBuffer;
-	CircularBuffer<Packet> addPacket;
+	Hash hash;
 	
 	Server() {	
 		try {
+			hash = new Hash(5);
+			globalBarberShopTree = new BarberShopTree();
 //			addDataBuffer = new CircularBuffer<>(AddData[].class,5); // add data to server
-			addData = new AddData();
-			addData.start();
 			sendDataBuffer = new CircularBuffer<>(ReturnData[].class,100);
 			getDataBuffer = new CircularBuffer<>(GetData[].class,100);
 			cleanBuffer = new CleanBuffer();
-			addPacket = new CircularBuffer<>(Packet[].class,200);
 			startServer();
 			int i = 0;
 			while (true) {
@@ -44,8 +42,6 @@ public class Server extends Thread {
 
 	private void startServer() {
 		try {
-			tree = new Tree();
-			barberShopTree = new BarberShopTree();
 			this.server = new ServerSocket(4000); // 0 means finds some local port	
 			this.exportPort = new ServerSocket(4001); // USED to relay client objects
 		} catch (Exception e) {
@@ -116,9 +112,11 @@ class GetData extends Thread {
 			
 			ObjectInputStream fromConnection = new ObjectInputStream(socket.getInputStream());				
 			Packet packet = (Packet)fromConnection.readObject();
-			if (!packet.sendBack()) {				
-				addPacket.saveThread(packet);	
-				addData.startThread();
+			if (!packet.sendBack()) {			
+				hash.putInHash(packet);
+				hash.startThread(packet);	
+//				addPacket.saveThread(packet);	
+//				addData.startThread();
 				fromConnection.close();				
 			} else {
 				sendDataBuffer.saveThread(new ReturnData(packet));
@@ -156,29 +154,29 @@ class ReturnData extends Thread {
 	
 	public void sendBackData(Packet packet) {
 		try {
-//			System.out.println("test");																// COMMENT
 			 
 			Socket s = exportPort.accept();
 			ObjectOutputStream backToUser = new ObjectOutputStream(s.getOutputStream());
 			if (packet.getCustomer() != null) {
 				if (packet.request == RequestEnum.Request.getData) {
-					packet.infoC = tree.returnInfo(packet.getCustomer());
-					packet.infoC.giveList(barberShopTree.getBarberShopList()); // Give list of barbers for customer, Not very efficient but for our purposes works
+					packet.infoC = hash.getInfoC(packet.getCustomer());
+					packet.infoC.giveList(globalBarberShopTree.getBarberShopList()); // Give list of barbers for customer, Not very efficient but for our purposes works
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
-					boolean inTree = tree.inTree(packet.getCustomer());
+					boolean inTree = hash.inHash(packet.infoC);					
 					if (inTree) {
-						packet.infoC = tree.returnInfo(packet.getCustomer());
+						packet.infoC = hash.getInfoC(packet.getCustomer());
+						packet.infoC.giveList(globalBarberShopTree.getBarberShopList());						
 					} else {
 						packet.infoC = null;
 					}
 				}
 			} else  if (packet.getBarberShop() != null) {
 				if (packet.request == RequestEnum.Request.getData) {
-					packet.infoB = barberShopTree.returnInfo(packet.getBarberShop());
+					packet.infoB = hash.getInfoB(packet.getBarberShop());
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
-					boolean inTree = barberShopTree.inTree(packet.getBarberShop());
+					boolean inTree = hash.inHash(packet.infoB);
 					if (inTree) {
-						packet.infoB = barberShopTree.returnInfo(packet.getBarberShop());
+						packet.infoB = hash.getInfoB(packet.getBarberShop());
 					} else {
 						packet.infoB = null; // if password or userName does not match
 					}
@@ -187,7 +185,7 @@ class ReturnData extends Thread {
 			backToUser.writeObject(packet); // writes state of object
 			backToUser.close();
 		} catch (Exception e) {
-			System.out.println("Didnt send info");
+			System.out.println("Didnt send info1");
 		}
 	}
 }
@@ -197,9 +195,36 @@ class ReturnData extends Thread {
  */
 class AddData extends Thread {
 	Semaphore semaphore;
+	Tree tree;
+	BarberShopTree barberShopTree;
+	
+	CircularBuffer<Packet> addPacket;	
 	
 	AddData() {
 		this.semaphore = new Semaphore(0);
+		this.tree = new Tree();
+		this.barberShopTree = new BarberShopTree();
+		this.addPacket = new CircularBuffer<>(Packet[].class,200);		
+	}
+	
+	public Tree getTree() {
+		return tree;
+	}
+	
+	public boolean inTree(CustomerInfo info) {
+		return tree.inTree(info);
+	}
+	
+	public boolean inBarberShopTree(BarberShopInfo info) {
+		return barberShopTree.inTree(info);
+	}
+	
+	public BarberShopTree getBarberShopTree() {
+		return barberShopTree;
+	}
+	
+	public void givePacket(Packet packet) {
+		addPacket.saveThread(packet);
 	}
 	
 	public void startThread() {
@@ -234,8 +259,10 @@ class AddData extends Thread {
 			} else  if (packet.getBarberShop() != null) {
 				if (packet.request == RequestEnum.Request.giveData) {
 					barberShopTree.addNode(packet.getBarberShop());
+					globalBarberShopTree.addNode(packet.getBarberShop());
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					barberShopTree.removeNode(packet.getBarberShop());
+					globalBarberShopTree.removeNode(packet.getBarberShop());					
 				}
 			}						
 		} catch (Exception e) {
@@ -244,6 +271,108 @@ class AddData extends Thread {
 	}			
 }
 
+/* A hash of threads is used for the purpose of making inputing data faster for lots of users
+ * that this application will never have. Each thread is responsible for one bucket
+ * 
+ */
+
+class Hash {
+	
+	public AddData[] Buckets;
+	private int numBuckets;
+
+	
+	Hash(int numBuckets) {
+		this.Buckets = new AddData[numBuckets];
+		this.numBuckets = numBuckets;
+		this.initializeBuckets();
+		
+	}
+
+
+	private int getIndex(String userName) {
+		int index = 0;
+		for (int i = 0; i < userName.length(); i++) {
+			index = index + userName.charAt(i);
+		}
+		
+		do {
+			index = index % numBuckets;
+		} while (index > (numBuckets - 1));
+		
+		return index;
+	}
+	
+	/* Starts thread based on info in packet
+	 * 
+	 */
+	public void startThread(Packet packet) {
+		if (packet.infoC != null) {
+			int index = getIndex(packet.infoC.getUserName());
+			Buckets[index].startThread();
+		} else if (packet.infoB != null) {
+			int index = getIndex(packet.infoB.getUserName());
+			Buckets[index].startThread();			
+		}
+		
+	}
+	
+	
+	/* gives to the correct instance of addData the packet based on userName
+	 *  of account in packet
+	 */
+	public void putInHash(Packet packet) {
+		int index = -1;
+		if (packet.infoC != null) {
+			index = getIndex(packet.infoC.getUserName());
+		} else if (packet.infoB != null) {
+			index = getIndex(packet.infoB.getUserName());
+		}
+		if (index != -1) {
+			Buckets[index].givePacket(packet);
+		}
+	}
+	
+	
+	public BarberShopInfo getInfoB(BarberShopInfo info) {
+		int index = getIndex(info.getUserName());
+		return Buckets[index].getBarberShopTree().returnInfo(info);		
+	}
+	
+	public CustomerInfo getInfoC(CustomerInfo info) {
+		int index = getIndex(info.getUserName());
+		return Buckets[index].getTree().returnInfo(info);
+	}
+	
+	
+	/* checks if in hask
+	 * @return true if found, false if not
+	 */
+	public boolean inHash(CustomerInfo infoC) {
+		if (infoC != null) {
+			int index = getIndex(infoC.getUserName());	
+			return Buckets[index].inTree(infoC);
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean inHash(BarberShopInfo info) {
+		if (info != null) {
+			int index = getIndex(info.getUserName());
+			return Buckets[index].inBarberShopTree(info);
+		} else {
+			return false;
+		}
+	}	
+	
+	private void initializeBuckets() {
+		for (int i = 0; i < numBuckets; i++) {
+			Buckets[i] = new AddData();
+			Buckets[i].start();
+		}
+	}
+}
 
 /* this is the critical section/region used by the two threads
  * it is a circular buffer where producer and consumer both move down
