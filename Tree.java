@@ -154,6 +154,38 @@ public class Tree {
 		return null;		
 	}
 	
+	public boolean inTree(String userName) {
+		Node n = root;
+		String nodeName = n.getName();
+		if (nodeName.compareTo(userName) ==0)
+			return true;
+		else if (nodeName.compareTo(userName) > 0) {
+			if (n.left != null) {
+				return this.inTree(userName, n.left);
+			}
+		} else if (nodeName.compareTo(userName) < 0) {
+			if (n.right != null) {
+				return this.inTree(userName, n.right);
+			}
+		}
+		return false;
+	}
+	public boolean inTree(String userName, Node n) {
+		String nodeName = n.getName();
+		if (nodeName.compareTo(userName) ==0)
+			return true;
+		else if (nodeName.compareTo(userName) > 0) {
+			if (n.left != null) {
+				return this.inTree(userName, n.left);
+			}
+		} else if (nodeName.compareTo(userName) < 0) {
+			if (n.right != null) {
+				return this.inTree(userName, n.right);
+			}
+		}
+		return false;
+	}
+	
 	
 	public boolean inTree(CustomerInfo customer) {
 		if (!isEmpty()) { // check if empty
