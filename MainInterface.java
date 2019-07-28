@@ -217,8 +217,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
 		
-		LogInButton.addActionListener(this); 
-		//LogInButton.addActionListener(new aButtonHandler());
+		//LogInButton.addActionListener(this); 
+		LogInButton.addActionListener(this);
 		add(logInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to log in  !");
@@ -445,9 +445,10 @@ class customerSignFrame extends JFrame implements ActionListener{
 						passWordTextField;
 	private JPanel signInPanel;
 	
-	GetServer getServer = new GetServer();
+	GetServer getServer;
 	
 	public customerSignFrame() {
+		this.getServer = new GetServer();
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
@@ -548,46 +549,3 @@ public static void main(String[] args) {
 	
 }
 
-
-class RunProgram {
-	
-	public static void main(String[] args) {
-		try {
-			new RunProgram();
-//		Request request;
-		TempRunProgram temp = new TempRunProgram();	
-/*		GetServer getServer = new GetServer();
-		try {
-			Scanner keyboard = new Scanner(System.in);
-			while (true) {
-			System.out.println("Enter 1 to enter Customer, 2 to get a customer: ");
-			int value = keyboard.nextInt();
-			keyboard.nextLine();
-			if (value == 1) {
-				System.out.println("Please Enter A Name to put in server: ");
-				String name = keyboard.nextLine();
-				getServer.sendInfo(new Packet((new CustomerInfo(name)),RequestEnum.Request.giveData));
-			} else {
-				System.out.println("Please Enter A Name to get from server: ");
-				String name = keyboard.nextLine();
-				getServer.getInfo(new Packet((new CustomerInfo(name)),RequestEnum.Request.getData));
-			}
-				
-			} */
-//			InterFace ainterface = new InterFace();
-		} catch (Exception e) {
-			
-		}
-
-	}
-}
-
-class TempRunProgram extends Thread {
-	TempRunProgram() {		
-		this.start();
-	}
-	
-	public void run() {
-		Server server = new Server();		
-	}
-}
