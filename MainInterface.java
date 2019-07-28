@@ -217,8 +217,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
 		
-		//LogInButton.addActionListener(this); 
-		LogInButton.addActionListener(new aButtonHandler());
+		LogInButton.addActionListener(this); 
+		//LogInButton.addActionListener(new aButtonHandler());
 		add(logInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to log in  !");
