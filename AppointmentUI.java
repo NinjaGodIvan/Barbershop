@@ -10,6 +10,8 @@ public class AppointmentUI extends JFrame{
 	JButton makeAppointment_button, checkAppointment_button, cancelAppointment_button;
 	GridBagConstraints pos; //Used to position JComponents
 	Customer customer; //Needs customer object to make appointment and display customer's username
+	String BarberShopSelected;
+	GetServer server;
 	
 	//1. Main Menu Panel (Start Panel too!)
 	public JPanel MainMenuPanel() {
@@ -28,6 +30,7 @@ public class AppointmentUI extends JFrame{
 			
 			//This will remove the current panel being displayed and create a panel to be displayed on the frame
 			public void actionPerformed(ActionEvent e) {
+				BarberButtonPanel temp = new BarberButtonPanel(customer.getCustomerInfo().barberShopList);
 				MainMenu_panel.removeAll();
 				JPanel panel = MakeAppointmentPanel();
 				add(panel);
@@ -195,7 +198,11 @@ public class AppointmentUI extends JFrame{
 						
 						//If there is no error, then go to success panel. Otherwise, display an error message instead
 						if(error_message == "No Error") {
-							
+							// Vlad is the writer*************************
+							BarberShopInfo temp = server.getBarberShopInfo(BarberShopSelected);
+							temp.giveAppointment(customer.appt);
+							server.giveBarberShopInfo(temp);
+							// *********************************************
 							MakeAppointment_panel.removeAll();
 							panel = SuccessPanel1();
 							add(panel);
@@ -484,7 +491,8 @@ public class AppointmentUI extends JFrame{
 		
 		//Gets customer's account and info to make appointment
 		this.customer = cust; 
-
+		this.server = new GetServer();		
+		this.BarberShopSelected = "none";
 		//Program starts with the main menu panel
 		JPanel startPanel = MainMenuPanel();
 		add(startPanel);
@@ -496,4 +504,60 @@ public class AppointmentUI extends JFrame{
 	    setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	
+	// Vlad
+	class BarberButtonPanel extends JPanel {
+		private JButton[] barberShops;		
+		JPanel buttonPanel;
+		BarberShopInfo[] barberList;	
+		String[] barberShopNames;
+		
+		BarberButtonPanel(BarberShopInfo[] barberList) {
+			this.barberList = barberList;
+			this.makeBarberList();
+		}
+		
+		public int makeBarberList() {
+				buttonPanel = new JPanel();			
+				
+				int size = 0;
+				for (BarberShopInfo b : barberList) {
+					size++;
+				}
+				setLayout(new GridLayout(1,size));	
+				setBorder(BorderFactory.createTitledBorder("select Shop"));					
+				System.out.println(size);
+				barberShops = new JButton[size];
+				barberShopNames = new String[size];
+
+				for (int i = 0; i < size; i++) {
+					barberShops[i] = new JButton(barberList[i].getUserName());
+					barberShops[i].setPreferredSize(new Dimension(150, 30));				
+					barberShops[i].addActionListener(new aButtonHandler(barberList[i].getUserName()));
+					buttonPanel.add(barberShops[i]);				
+				}		
+				
+				add(buttonPanel);
+	//			setSize(150, (size*15));	
+				return size;			
+		}	
+		private class aButtonHandler implements ActionListener{
+			private String buttonName;
+			aButtonHandler(String buttonName) {
+				this.buttonName = buttonName;
+			}
+			
+			public void actionPerformed(ActionEvent e) {
+				BarberShopSelected = buttonName;
+				dispose();
+			}
+		}		
+	}
+	
+	
+	
+	
 }
+
+
+
