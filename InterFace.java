@@ -47,10 +47,15 @@ public class InterFace {
 		if (customerInfo == null) {
 			System.out.println("ACCOUNT DOESNT EXIST");
 		} else {
-			if (customerInfo.isBarber == true)
+			System.out.println("Your username is " + customerInfo.getUserName());
+			if (customerInfo.isBarber == true) {
+				System.out.println("Test");
 				barber = new Barber(customerInfo);
-			else 
+			}
+			else  {
 				customer = new Customer(customerInfo);
+				
+			}
 		}		
 	}
 	
@@ -59,7 +64,9 @@ public class InterFace {
 		if (barberShopInfo == null) {
 			System.out.println("ACCOUNT DOESNT EXIST");
 		} else {
+			System.out.println("Welcome " + barberShopInfo.getUserName());
 			barberShop = new BarberShop(barberShopInfo);
+			BarbershopBarberUI test = new BarbershopBarberUI(barberShop);
 		}
 	}
 	
@@ -113,7 +120,7 @@ public class InterFace {
 				String name = keyboard.nextLine();
 				System.out.println("Please Enter a password: ");
 				String password = keyboard.nextLine();
-				
+				logInCustomer(name,password);	
 				
 				
 			}
