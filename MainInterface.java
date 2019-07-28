@@ -1,10 +1,8 @@
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.*;
-
 
 public class MainInterface extends JFrame implements ActionListener{
 
@@ -200,6 +198,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel logInPanel;
+	GetServer getServer = new GetServer();	
+	Customer customer;
 	
 	public customerlogFrame() {
 		LogInButton = new JButton("log in");
@@ -233,8 +233,19 @@ class customerlogFrame extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == LogInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
+			
+			CustomerInfo customerInfo = getServer.getCustomerInfo(name,password);
+			if (customerInfo == null) {
+				System.out.println("ACCOUNT DOESNT EXIST");
+			} else {
+				System.out.println("Your username is " + customerInfo.getUserName());
+
+				customer = new Customer(customerInfo);
+			}			
+			
+			
 			
 			//   need  work....
 		}
@@ -250,6 +261,9 @@ class barberlogFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel logInPanel;
+	Barber barber;
+	GetServer getServer = new GetServer();
+	
 	
 	public barberlogFrame() {
 		LogInButton = new JButton("log in");
@@ -282,10 +296,18 @@ class barberlogFrame extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+			System.out.println("\n\n\n\n\n\n FUDGE \n\n\n\n\n\n\n\n\n\n");		
 		if(e.getSource() == LogInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//   need  work....
+			CustomerInfo customerInfo = getServer.getCustomerInfo(name,password);
+			if (customerInfo == null) {
+				System.out.println("ACCOUNT DOESNT EXIST");
+			} else {
+				if (customerInfo.isBarber == true) {
+					barber = new Barber(customerInfo);
+				}
+			}	
 		}
 		
 	}
@@ -299,6 +321,9 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel logInPanel;
+	BarbershopBarberUI shopUI;
+	BarberShop barberShop;
+	GetServer getServer = new GetServer();
 	
 	public barberShoplogFrame() {
 		LogInButton = new JButton("log in");
@@ -332,9 +357,16 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == LogInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//   need  work....
+			BarberShopInfo barberShopInfo = getServer.getBarberShopInfo(name,password);
+			if (barberShopInfo == null) {
+				System.out.println("ACCOUNT DOESNT EXIST");
+			} else {
+				System.out.println("Welcome " + barberShopInfo.getUserName());
+				barberShop = new BarberShop(barberShopInfo);
+				shopUI = new BarbershopBarberUI(barberShop);
+			}
 		}
 		
 	}
@@ -348,6 +380,8 @@ class barberSignFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel signInPanel;
+	
+	GetServer getServer = new GetServer();
 	
 	public barberSignFrame() {
 		signInButton = new JButton("Sign up");
@@ -380,9 +414,16 @@ public static void main(String[] args) {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == signInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//   need  work....
+			CustomerInfo temp = new CustomerInfo(name,password);
+			temp.isBarber = true;
+			boolean test = getServer.createCustomerInfoAccount(temp);
+			if (test) {
+				System.out.println("ACCOUNT CREATED");
+			} else {
+				System.out.println("ACCOUNT EXISTS");
+			}		
 		}
 		
 	}
@@ -397,6 +438,8 @@ class customerSignFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel signInPanel;
+	
+	GetServer getServer = new GetServer();
 	
 	public customerSignFrame() {
 		signInButton = new JButton("Sign up");
@@ -429,9 +472,14 @@ public static void main(String[] args) {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == signInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//   need  work....
+			boolean test = getServer.createCustomerInfoAccount(new CustomerInfo(name,password));
+			if (test) {
+				System.out.println("ACCOUNT CREATED");
+			} else {
+				System.out.println("ACCOUNT EXISTS");
+			}	
 		}
 		
 	}
@@ -447,6 +495,7 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 						passWordTextField;
 	private JPanel signInPanel;
 	
+	GetServer getServer = new GetServer();
 	public barberShopSignFrame() {
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
@@ -478,12 +527,61 @@ public static void main(String[] args) {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == signInButton) {
-			String usrName = userNameTextField.getText();
+			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//   need  work....
+			boolean test = getServer.createBarberShopAccount(new BarberShopInfo(name,password));
+			if (test) {
+				System.out.println("ACCOUNT CREATED");
+			} else {
+				System.out.println("ACCOUNT EXISTS");
+			}				
 		}
 		
 	}
 	
 	
+}
+
+
+class RunProgram {
+	
+	public static void main(String[] args) {
+		try {
+			new RunProgram();
+//		Request request;
+		TempRunProgram temp = new TempRunProgram();	
+/*		GetServer getServer = new GetServer();
+		try {
+			Scanner keyboard = new Scanner(System.in);
+			while (true) {
+			System.out.println("Enter 1 to enter Customer, 2 to get a customer: ");
+			int value = keyboard.nextInt();
+			keyboard.nextLine();
+			if (value == 1) {
+				System.out.println("Please Enter A Name to put in server: ");
+				String name = keyboard.nextLine();
+				getServer.sendInfo(new Packet((new CustomerInfo(name)),RequestEnum.Request.giveData));
+			} else {
+				System.out.println("Please Enter A Name to get from server: ");
+				String name = keyboard.nextLine();
+				getServer.getInfo(new Packet((new CustomerInfo(name)),RequestEnum.Request.getData));
+			}
+				
+			} */
+//			InterFace ainterface = new InterFace();
+		} catch (Exception e) {
+			
+		}
+
+	}
+}
+
+class TempRunProgram extends Thread {
+	TempRunProgram() {		
+		this.start();
+	}
+	
+	public void run() {
+		Server server = new Server();		
+	}
 }
