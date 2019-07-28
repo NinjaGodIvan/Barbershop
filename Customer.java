@@ -1,5 +1,3 @@
-//Package
-import java.util.Scanner;
 
 public class Customer extends Thread {
 	
@@ -23,15 +21,9 @@ public class Customer extends Thread {
 	}
 		
 	/** Function that asks user for the name of the barbershop and sets it */
-	public void setBarberShop() {
+	public void setBarberShop(String barberShop) {
 		
-		Scanner in = new Scanner(System.in);
-		System.out.print("Enter the name of your barber shop:");
-		in.nextLine();
-		String barberShop = in.nextLine();
-		in.close();
 		this.barberShop = barberShop;
-		
 	}
 	
 	/** Function that changes the customer's phone number */
