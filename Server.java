@@ -190,20 +190,28 @@ class ReturnData extends Thread {
 	}
 }
 
-/* adding data has to be synchronized
+/* Will add data to BarberShopTree or tree depending on packet data it reads
+ * Packet data stored in a circularBuffer
  * since adding two things to tree at once causes problems
  */
 class AddData extends Thread {
 	Semaphore semaphore;
 	Tree tree;
 	BarberShopTree barberShopTree;
+	SaveAndLoad saveNLoad;
+	
 	
 	CircularBuffer<Packet> addPacket;	
 	
 	AddData() {
+		this.saveNLoad = new SaveAndLoad("storage");
 		this.semaphore = new Semaphore(0);
-		this.tree = new Tree();
-		this.barberShopTree = new BarberShopTree();
+		this.tree = saveNLoad.LoadTreeData();
+		if (tree == null) 
+			this.tree = new Tree();
+		this.barberShopTree = saveNLoad.LoadBarberShopTreeData();
+		if (barberShopTree == null) 
+			this.barberShopTree = new BarberShopTree();
 		this.addPacket = new CircularBuffer<>(Packet[].class,200);		
 	}
 	
@@ -253,6 +261,7 @@ class AddData extends Thread {
 				if (packet.request == RequestEnum.Request.giveData) {
 					packet.infoC.giveList(barberShopTree.getBarberShopList());					
 					tree.addNode(packet.getCustomer());
+					saveNLoad.SaveData(tree);
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					tree.removeNode(packet.getCustomer());
 				}
@@ -260,6 +269,7 @@ class AddData extends Thread {
 				if (packet.request == RequestEnum.Request.giveData) {
 					barberShopTree.addNode(packet.getBarberShop());
 					globalBarberShopTree.addNode(packet.getBarberShop());
+					saveNLoad.SaveData(barberShopTree);					
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					barberShopTree.removeNode(packet.getBarberShop());
 					globalBarberShopTree.removeNode(packet.getBarberShop());					
@@ -272,8 +282,8 @@ class AddData extends Thread {
 }
 
 /* A hash of threads is used for the purpose of making inputing data faster for lots of users
- * that this application will never have. Each thread is responsible for one bucket
- * 
+ * that this application will never have. Each thread is responsible for adding data to one bucket
+ * For this server there will be 5 buckets so 5 threads putting in data into each Tree
  */
 
 class Hash {

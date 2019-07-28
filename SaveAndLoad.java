@@ -1,14 +1,26 @@
-package barber;
 import java.io.*;
 
 public class SaveAndLoad {
 	
-	String filename = "storage.txt";
+	
+	static int counter = 0;
+	
+	String filename1;
+	String filename2;
+	
+	SaveAndLoad(String filename) {
+		counter++;
+		this.filename1 = filename + "" + counter + ".dat";
+		this.filename2 = filename + "2" + counter + ".dat";
+//		System.out.println(this.filename1 + " " + this.filename2);
+	}
 	
 	public void SaveData(Tree tree) {
 		
 		try {
-			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename));
+			File temp = new File(filename1);
+			temp.createNewFile();			
+			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename1,false));
 			saveData.writeObject(tree);
 			saveData.close();
 		}catch(IOException e) {
@@ -19,7 +31,9 @@ public class SaveAndLoad {
 	public void SaveData(BarberShopTree barberTree) {
 		
 		try {
-			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename));
+			File temp = new File(filename2);
+			temp.createNewFile();				
+			ObjectOutputStream saveData = new ObjectOutputStream(new FileOutputStream(filename2,false));
 			saveData.writeObject(barberTree);
 			saveData.close();
 		}catch(IOException e) {
@@ -32,15 +46,17 @@ public class SaveAndLoad {
 		Tree loadTree = null;
 		
 		try {
-			
-			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename));
+			File temp = new File(filename1);
+			temp.createNewFile();			
+			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename1));
 			loadTree = (Tree) loadData.readObject();
 			loadData.close();
 		
 		}catch(Exception e) {
-			System.out.println("Unable to load data.");
-		}		
+//			System.out.println("Unable to load data.");
+		}	finally {	
 		return loadTree;
+		}
 	}
 	
 	public BarberShopTree LoadBarberShopTreeData() {
@@ -48,15 +64,17 @@ public class SaveAndLoad {
 		BarberShopTree loadTree = null;
 		
 		try {
-			
-			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename));
+			File temp = new File(filename2);
+			temp.createNewFile();			
+			ObjectInputStream loadData = new ObjectInputStream(new FileInputStream(filename2));
 			loadTree = (BarberShopTree) loadData.readObject();
 			loadData.close();
 		
 		}catch(Exception e) {
-			System.out.println("Unable to load data.");
-		}		
+//			System.out.println("Unable to load data.");
+		} finally {
 		return loadTree;
+		}
 	}
 
 }

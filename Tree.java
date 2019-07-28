@@ -1,5 +1,7 @@
-public class Tree {
-	class Node {
+import java.io.Serializable;
+
+public class Tree implements Serializable {
+	class Node implements Serializable {
 		Node(CustomerInfo customer) {
 			this.info = customer;
 		}
