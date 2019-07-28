@@ -193,7 +193,7 @@ class signUpJFrame extends JFrame implements ActionListener{
 
 
 class customerlogFrame extends JFrame implements ActionListener{
-	private JButton LogInButton;
+	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -203,11 +203,13 @@ class customerlogFrame extends JFrame implements ActionListener{
 	Customer customer;
 	
 	public customerlogFrame() {
+		backButton = new JButton("back");
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
 		userNameTextField = new JTextField(10); 
 		passWordTextField = new JTextField(10); 
+		
 		
 		logInPanel = new JPanel();
 		
@@ -216,8 +218,9 @@ class customerlogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordLabel);
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
+		logInPanel.add(backButton);
 		
-		//LogInButton.addActionListener(this); 
+		backButton.addActionListener(this);
 		LogInButton.addActionListener(this);
 		add(logInPanel);
 		setSize(400, 200);
@@ -233,6 +236,13 @@ class customerlogFrame extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == backButton) {
+			this.dispose();
+			new logInJFrame();
+			
+		}
+		
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
@@ -245,10 +255,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 
 				customer = new Customer(customerInfo);
 			}			
-			
-			
-			
-			//   need  work....
+				//   need  work....
 		}
 		
 	}
@@ -258,7 +265,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 
 
 class barberlogFrame extends JFrame implements ActionListener{
-	private JButton LogInButton;
+	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -270,6 +277,7 @@ class barberlogFrame extends JFrame implements ActionListener{
 	
 	public barberlogFrame() {
 		LogInButton = new JButton("log in");
+		backButton = new JButton("Back");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
 		userNameTextField = new JTextField(10); 
@@ -282,9 +290,9 @@ class barberlogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordLabel);
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
-		
+		logInPanel.add(backButton);
 		LogInButton.addActionListener(this); 
-		
+		backButton.addActionListener(this); 
 		add(logInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to log in  !");
@@ -299,7 +307,12 @@ class barberlogFrame extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-			System.out.println("\n\n\n\n\n\n FUDGE \n\n\n\n\n\n\n\n\n\n");		
+			System.out.println("\n\n\n\n\n\n FUDGE \n\n\n\n\n\n\n\n\n\n");	
+			if(e.getSource() == backButton) {
+				this.dispose();
+				new logInJFrame();
+				
+			}
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
@@ -318,7 +331,7 @@ class barberlogFrame extends JFrame implements ActionListener{
 }
 
 class barberShoplogFrame extends JFrame implements ActionListener{
-	private JButton LogInButton;
+	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -329,6 +342,7 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 	GetServer getServer = new GetServer();
 	
 	public barberShoplogFrame() {
+		backButton = new JButton("Back");
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
@@ -342,9 +356,10 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordLabel);
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
+		logInPanel.add(backButton);
 		
 		LogInButton.addActionListener(this); 
-		
+		backButton.addActionListener(this); 
 		add(logInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to log in  !");
@@ -359,6 +374,12 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == backButton) {
+			this.dispose();
+			new logInJFrame();
+			
+		}
+		
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
@@ -377,7 +398,7 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 }
 
 class barberSignFrame extends JFrame implements ActionListener{
-	private JButton signInButton;
+	private JButton signInButton,backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -387,6 +408,7 @@ class barberSignFrame extends JFrame implements ActionListener{
 	GetServer getServer = new GetServer();
 	
 	public barberSignFrame() {
+		backButton = new JButton("Back");
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
@@ -400,9 +422,10 @@ class barberSignFrame extends JFrame implements ActionListener{
 		signInPanel.add(passWordLabel);
 		signInPanel.add(passWordTextField);
 		signInPanel.add(signInButton);
+		signInPanel.add(backButton);
 		
 		signInButton.addActionListener(this); 
-		
+		backButton.addActionListener(this); 
 		add(signInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to sign in  !");
@@ -416,6 +439,12 @@ public static void main(String[] args) {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == backButton) {
+			this.dispose();
+			new signUpJFrame();
+			
+		}
+		
 		if(e.getSource() == signInButton) {
 			 //serNameTextField.setText("a");
 			String name =userNameTextField.getText();
@@ -438,7 +467,7 @@ public static void main(String[] args) {
 }
 
 class customerSignFrame extends JFrame implements ActionListener{
-	private JButton signInButton;
+	private JButton signInButton,backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -449,6 +478,7 @@ class customerSignFrame extends JFrame implements ActionListener{
 	
 	public customerSignFrame() {
 		this.getServer = new GetServer();
+		backButton = new JButton("Back");
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
@@ -462,9 +492,10 @@ class customerSignFrame extends JFrame implements ActionListener{
 		signInPanel.add(passWordLabel);
 		signInPanel.add(passWordTextField);
 		signInPanel.add(signInButton);
+		signInPanel.add(backButton);
 		
 		signInButton.addActionListener(this); 
-		
+		backButton.addActionListener(this); 
 		add(signInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to sign in  !");
@@ -478,6 +509,11 @@ public static void main(String[] args) {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == backButton) {
+			this.dispose();
+			new signUpJFrame();
+			
+		}
 		if(e.getSource() == signInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
@@ -495,7 +531,7 @@ public static void main(String[] args) {
 }
 
 class barberShopSignFrame extends JFrame implements ActionListener{
-	private JButton signInButton;
+	private JButton signInButton, backButton;
 	private JLabel userNameLabel,
 					passWordLabel;
 	private JTextField userNameTextField,
@@ -504,6 +540,7 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 	
 	GetServer getServer = new GetServer();
 	public barberShopSignFrame() {
+		backButton = new JButton("Back");
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
@@ -517,9 +554,9 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 		signInPanel.add(passWordLabel);
 		signInPanel.add(passWordTextField);
 		signInPanel.add(signInButton);
-		
+		signInPanel.add(backButton);
 		signInButton.addActionListener(this); 
-		
+		backButton.addActionListener(this); 
 		add(signInPanel);
 		setSize(400, 200);
 		setTitle("Welcome to sign in  !");
@@ -533,6 +570,12 @@ public static void main(String[] args) {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() == backButton) {
+			this.dispose();
+			new signUpJFrame();
+			
+		}
 		if(e.getSource() == signInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
