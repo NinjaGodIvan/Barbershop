@@ -45,9 +45,7 @@ public class GetServer {
 	}	
 	
 	public CustomerInfo getCustomerInfo(CustomerInfo info) {
-		Packet packet = new Packet(info,RequestEnum.Request.getData);
-		packet = this.getInfo(packet);
-		return packet.getCustomer();
+		return this.findCustomerInfo(info.getUserName(),info.getPassword());
 	}	
 	
 	/*
@@ -85,9 +83,7 @@ public class GetServer {
 	}	
 	
 	public BarberShopInfo getBarberShopInfo(BarberShopInfo info) {
-		Packet packet = new Packet(info,RequestEnum.Request.getData);
-		packet = this.getInfo(packet);
-		return packet.getBarberShop();
+		return this.findBarberShopInfo(info.getUserName(),info.getPassword());
 	}
 	
 	
