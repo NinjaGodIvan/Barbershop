@@ -17,23 +17,25 @@ public class Server extends Thread {
 	ServerSocket exportPort; // used for sending messages back to client
 	Tree tree;
 	BarberShopTree barberShopTree;		
-	CircularBuffer<AddData> addDataBuffer;
+//	CircularBuffer<AddData> addDataBuffer;
+	AddData addData;
 	CircularBuffer<ReturnData> sendDataBuffer;
 	CircularBuffer<GetData> getDataBuffer;
-	SynchronizeData synchronizeData;
+	CircularBuffer<Packet> addPacket;
 	
 	Server() {	
 		try {
-			addDataBuffer = new CircularBuffer<>(AddData[].class,100);
+//			addDataBuffer = new CircularBuffer<>(AddData[].class,5); // add data to server
+			addData = new AddData();
+			addData.start();
 			sendDataBuffer = new CircularBuffer<>(ReturnData[].class,100);
 			getDataBuffer = new CircularBuffer<>(GetData[].class,100);
-			cleanBuffer = new CleanBuffer(getDataBuffer,sendDataBuffer);
-			synchronizeData = new SynchronizeData(addDataBuffer);
+			cleanBuffer = new CleanBuffer();
+			addPacket = new CircularBuffer<>(Packet[].class,200);
 			startServer();
-			synchronizeData.start();
 			int i = 0;
 			while (true) {
-				getDataBuffer.saveThread(new GetData(cleanBuffer,tree, barberShopTree, server.accept(),synchronizeData, addDataBuffer,sendDataBuffer,exportPort));	
+				getDataBuffer.saveThread(new GetData(server.accept()));	
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -51,20 +53,16 @@ public class Server extends Thread {
 		}
 	}
 	
-}
+
 
 /* manages the getData buffer and sendData buffer
  * 
  */
 class CleanBuffer extends Thread {
-	private CircularBuffer<GetData> getDataBuffer;
-	private CircularBuffer<ReturnData> sendDataBuffer;	
 	private Semaphore semaphore;
 	
-	CleanBuffer(CircularBuffer<GetData> getDataBuffer, CircularBuffer<ReturnData> sendDataBuffer) {
+	CleanBuffer() {
 		this.semaphore = new Semaphore(0);
-		this.getDataBuffer = getDataBuffer;
-		this.sendDataBuffer = sendDataBuffer;
 		this.start();
 	}
 	
@@ -95,30 +93,15 @@ class CleanBuffer extends Thread {
 
 class GetData extends Thread {
 	boolean done;
-	CleanBuffer cleanBuffer;
-	CircularBuffer<AddData>  addDataBuffer;
-	CircularBuffer<ReturnData> sendDataBuffer;
-	SynchronizeData synchronizeData;
 	Socket socket;
-	Tree tree;
-	BarberShopTree barberShopTree;
-	ServerSocket server;
 	
 	public boolean isDone() {
 		return done;
 	}
 	
-	GetData(CleanBuffer cleanBuffer, Tree tree,BarberShopTree barberShopTree, Socket socket, SynchronizeData synchronizeData, CircularBuffer<AddData> addDataBuffer, CircularBuffer<ReturnData> sendDataBuffer,ServerSocket server) { // not proud of this
-		this.cleanBuffer = cleanBuffer;
-		this.barberShopTree = barberShopTree;
-		this.tree = tree;
+	GetData(Socket socket) { // not proud of this
 		this.socket = socket;
-		this.addDataBuffer = addDataBuffer;
-		this.sendDataBuffer = sendDataBuffer;
-		this.synchronizeData = synchronizeData;
-		this.done = false;
 		this.start();
-		this.server = server;
 	}
 	
 	public void run() {
@@ -130,13 +113,15 @@ class GetData extends Thread {
 	private void getData(Socket socket) {
 		try {
 			// getInputStream returns an input stream
-			ObjectInputStream fromConnection = new ObjectInputStream(socket.getInputStream());
+			
+			ObjectInputStream fromConnection = new ObjectInputStream(socket.getInputStream());				
 			Packet packet = (Packet)fromConnection.readObject();
-			if (!packet.sendBack()) {
-				addDataBuffer.saveThread(new AddData(tree,barberShopTree,packet,synchronizeData));
+			if (!packet.sendBack()) {				
+				addPacket.saveThread(packet);	
+				addData.startThread();
 				fromConnection.close();				
 			} else {
-				sendDataBuffer.saveThread(new ReturnData(cleanBuffer, tree,barberShopTree, packet,server));
+				sendDataBuffer.saveThread(new ReturnData(packet));
 				fromConnection.close();
 			}
 			fromConnection.close();
@@ -147,27 +132,20 @@ class GetData extends Thread {
 }
 
 
+/* Sends back data to GetServer class
+ * 
+ */
 class ReturnData extends Thread {
-	CleanBuffer cleanBuffer;
-	BarberShopTree barberShopTree;
-	Tree tree;
-	Packet packet;
-	Socket socket;
 	boolean done;
-	ServerSocket server;
+	Packet packet;
 	
 	public boolean isDone() {
 		return done;
 	}
 	
-	ReturnData(CleanBuffer cleanBuffer, Tree tree,BarberShopTree barberShopTree, Packet packet, ServerSocket server) {
-		this.barberShopTree = barberShopTree;
-		this.cleanBuffer = cleanBuffer;
-		this.tree = tree;
+	ReturnData(Packet packet) {
 		this.packet = packet;
-		this.done = false;
 		this.start();
-		this.server = server;
 	}
 	
 	public void run() {
@@ -177,12 +155,15 @@ class ReturnData extends Thread {
 	}
 	
 	public void sendBackData(Packet packet) {
-		try { 
-			Socket s = server.accept();
+		try {
+//			System.out.println("test");																// COMMENT
+			 
+			Socket s = exportPort.accept();
 			ObjectOutputStream backToUser = new ObjectOutputStream(s.getOutputStream());
 			if (packet.getCustomer() != null) {
 				if (packet.request == RequestEnum.Request.getData) {
 					packet.infoC = tree.returnInfo(packet.getCustomer());
+					packet.infoC.giveList(barberShopTree.getBarberShopList()); // Give list of barbers for customer, Not very efficient but for our purposes works
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					boolean inTree = tree.inTree(packet.getCustomer());
 					if (inTree) {
@@ -211,90 +192,31 @@ class ReturnData extends Thread {
 	}
 }
 
-
-class SynchronizeData extends Thread {
-	Semaphore semaphore;
-	Semaphore waitSem;
-	CircularBuffer<AddData> addDataBuffer;
-	
-	SynchronizeData(CircularBuffer<AddData> addDataBuffer) {
-		this.addDataBuffer = addDataBuffer;
-		this.semaphore = new Semaphore(0);
-		this.waitSem = new Semaphore(0);
-	}
-	
-	public void runThread() {
-		waitSem.release();
-	}
-	
-	public void doneWithWork() { // used by synchronized class
-		semaphore.release();
-	}
-	
-	public void stopThread() {
-		waitSem.drainPermits();
-	}
-	
-	public void run() {
-		try {
-			while (true) {
-				waitSem.acquire();
-				while (!addDataBuffer.isEmpty()) {
-					AddData addData = addDataBuffer.consumeThread();
-					
-					addData.start(); // start thread
-					addData.startThread(); // release semaphore
-					semaphore.acquire(); // wait for addData thread to finsih
-					semaphore.drainPermits(); // reset
-				}
-				this.stopThread();
-
-			}
-		} catch (Exception e) {
-			System.out.println("something bad happened");
-		}
-	}
-	
-}
-
 /* adding data has to be synchronized
  * since adding two things to tree at once causes problems
  */
 class AddData extends Thread {
-	Packet packet;
-	SynchronizeData synchronizeData;
 	Semaphore semaphore;
-	BarberShopTree barberShopTree;
-	Tree tree;
-	static int customers = 0;
-	int threadID;
-	static int hold = 0;
 	
-	AddData(Tree tree, BarberShopTree barberShopTree, Packet packet,SynchronizeData synchronizeData) {
-		this.barberShopTree = barberShopTree;
-		this.tree = tree;
-		this.packet = packet;
-		semaphore = new Semaphore(0);
-		this.synchronizeData = synchronizeData;
-		this.synchronizeData.runThread(); // run if off
-		this.threadID = this.hold;
-		this.hold++;
-//		this.start();
+	AddData() {
+		this.semaphore = new Semaphore(0);
 	}
 	
 	public void startThread() {
-		semaphore.release();
-	}	
+		this.semaphore.release();
+	}
+		
 		
 	public void run() {
 		try {
-			semaphore.acquire();
-			
-			getData(packet);
-//			System.out.println("ThreadID " + threadID);
-			synchronizeData.doneWithWork();
-			
-			semaphore.drainPermits();
+			while (true) {
+				semaphore.acquire();
+				while (!addPacket.isEmpty()) {
+					getData(addPacket.consumeThread());
+	//				System.out.println("ThreadID " + threadID);
+				}
+				semaphore.drainPermits();
+			}
 		} catch (Exception e) {
 			
 		}
@@ -304,6 +226,7 @@ class AddData extends Thread {
 		try {
 			if (packet.getCustomer() != null) {
 				if (packet.request == RequestEnum.Request.giveData) {
+					packet.infoC.giveList(barberShopTree.getBarberShopList());					
 					tree.addNode(packet.getCustomer());
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					tree.removeNode(packet.getCustomer());
@@ -315,10 +238,6 @@ class AddData extends Thread {
 					barberShopTree.removeNode(packet.getBarberShop());
 				}
 			}						
-			customers++;
-			if ((customers % 5) == 0) {
-				tree.printInOrder();
-			}
 		} catch (Exception e) {
 			System.out.println("DIDNT GET DATA");
 		}
@@ -344,8 +263,8 @@ class CircularBuffer<T> {
 		this.done = false;
 		this.p = 0; // end
 		this.c = 0; // start
-		this.d = 0;
-		this.e = 0;
+		this.d = 0; // index used to loop through array without removing anything
+		this.e = 0; // used to iterate through buffer
 		this.size = m;		
 		circularBuffer = test.cast(Array.newInstance(test.getComponentType(), m));
 	}
@@ -422,4 +341,5 @@ class CircularBuffer<T> {
 	public void setDone(boolean d) {
 		this.done = d;
 	}
+}
 }
