@@ -1,7 +1,8 @@
 //package barber;
 import java.util.Calendar;
+import java.io.Serializable;
 
-public class Appointment {
+public class Appointment implements Serializable {
 	Calendar date;
 	CustomerInfo customer;
 	int am_pm; //1. AM; 2. PM
@@ -151,4 +152,3 @@ public class Appointment {
 		return "Appointment [date=" + getAppointment() + ", customer=" + customer + "]";
 	}
 }
-

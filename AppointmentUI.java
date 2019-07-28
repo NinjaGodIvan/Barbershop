@@ -30,7 +30,7 @@ public class AppointmentUI extends JFrame{
 			
 			//This will remove the current panel being displayed and create a panel to be displayed on the frame
 			public void actionPerformed(ActionEvent e) {
-				BarberButtonPanel temp = new BarberButtonPanel(customer.getCustomerInfo().barberShopList);
+				MakeBarberButtonPanelInterFace temp = new MakeBarberButtonPanelInterFace(customer);
 				MainMenu_panel.removeAll();
 				JPanel panel = MakeAppointmentPanel();
 				add(panel);
@@ -200,6 +200,7 @@ public class AppointmentUI extends JFrame{
 						if(error_message == "No Error") {
 							// Vlad is the writer*************************
 							BarberShopInfo temp = server.getBarberShopInfo(BarberShopSelected);
+							System.out.println("Info sent to " + temp.getUserName);
 							temp.giveAppointment(customer.appt);
 							server.giveBarberShopInfo(temp);
 							// *********************************************
@@ -506,15 +507,39 @@ public class AppointmentUI extends JFrame{
 	}
 	
 	// Vlad
+
+	class MakeBarberButtonPanelInterFace extends JFrame {
+		Customer customer;	
+		BarberButtonPanel buttonPanel;
+		
+		MakeBarberButtonPanelInterFace(Customer customer) {
+			this.customer = customer;
+			setTitle("Appts");
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setLayout(new BorderLayout());	
+			buttonPanel = new BarberButtonPanel(customer.getCustomerInfo().barberShopList,this);
+		//	int size = buttonPanel.makeBarberList();
+			add(buttonPanel);
+			setSize(160, 400);			
+			setVisible(true);
+			revalidate();
+			repaint();
+	//        update();        
+		}
+	}	
+	
+	
 	class BarberButtonPanel extends JPanel {
 		private JButton[] barberShops;		
 		JPanel buttonPanel;
 		BarberShopInfo[] barberList;	
 		String[] barberShopNames;
+		MakeBarberButtonPanelInterFace hold;
 		
-		BarberButtonPanel(BarberShopInfo[] barberList) {
+		BarberButtonPanel(BarberShopInfo[] barberList, MakeBarberButtonPanelInterFace temp) {
 			this.barberList = barberList;
 			this.makeBarberList();
+			this.hold = temp;
 		}
 		
 		public int makeBarberList() {
@@ -537,7 +562,7 @@ public class AppointmentUI extends JFrame{
 					buttonPanel.add(barberShops[i]);				
 				}		
 				
-				add(buttonPanel);
+				add(buttonPanel);		
 	//			setSize(150, (size*15));	
 				return size;			
 		}	
@@ -549,7 +574,7 @@ public class AppointmentUI extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				BarberShopSelected = buttonName;
-				dispose();
+				hold.dispose();
 			}
 		}		
 	}
