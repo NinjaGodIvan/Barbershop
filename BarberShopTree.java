@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 public class BarberShopTree implements Serializable{
 	class Node implements Serializable {
 		Node(BarberShopInfo barberShop) {
@@ -195,7 +197,7 @@ public class BarberShopTree implements Serializable{
 			printInOrder(n.left);
 		}
 	}
-	//-- Gyasi Mose --
+	//--
 	public int sizeTree() {
 		int i = 0;
 		if (!isEmpty())
@@ -235,8 +237,8 @@ public class BarberShopTree implements Serializable{
 		for (BarberShopInfo i: list) {
 			System.out.println(i);
 		}
-	}	
-	//-- Gyasi Mose --
+	}
+	//--
 	private boolean isEmpty() {
 		if (root == null) {
 			return true;		

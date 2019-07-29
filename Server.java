@@ -7,7 +7,9 @@ import java.io.Serializable;
 
 
 /* I use different classes so that i can support multithreading for different
- * jobs
+ * jobs, Server gets connections from GetServer class, start server and launch all
+ *  other classes that have to do with server. Including launching and 
+ *  creating layer 1 objects.
  * 
  * 
  */
@@ -22,6 +24,8 @@ public class Server extends Thread {
 	CircularBuffer<GetData> getDataBuffer;
 	Hash hash;
 	
+	/*  initializes all data variables. calls StartServer
+	 */
 	Server() {	
 		try {
 			hash = new Hash(5);
@@ -39,7 +43,10 @@ public class Server extends Thread {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	/* initializes tree and barberTree along with initializing ServerSockets
+	 * @param none
+	 * @return none
+	 */
 	private void startServer() {
 		try {
 			this.server = new ServerSocket(4000); // 0 means finds some local port	
@@ -52,16 +59,28 @@ public class Server extends Thread {
 
 
 /* manages the getData buffer and sendData buffer
- * 
+ * Will be used to remove Threads that have completed execution in the 
+ * GetData, AddData CircularBuffer in order to make room for new Threads.
  */
 class CleanBuffer extends Thread {
-	private Semaphore semaphore;
+	private Semaphore semaphore; /* will be responsible for pausing 
+	execution of CleanBuffer if the CircularBuffers are empty. */
 	
+	/* instantiates semaphore, starts itself
+	 * @param NONE
+	 * @return NONE
+	 */
 	CleanBuffer() {
 		this.semaphore = new Semaphore(0);
 		this.start();
 	}
 	
+	/* will loop over and over again until the two CircularBuffers are 
+	 * empty (ie all jobs have completed execution). Will remove a job from
+	 * the correct CircularBuffer if it is done.
+	 * @param NONE
+	 * @return NONE
+	 */
 	public void run() {
 		while (true) {
 			try {
@@ -81,31 +100,57 @@ class CleanBuffer extends Thread {
 		}
 	}
 	
+	/* will release the semaphore lock, called by GetData and ReturnData
+	 * when an instance of them gets created
+	 * @param NONE
+	 * @return NONE
+	 */
 	public void doWork() {
 		semaphore.release();
 	}	
 }
 
-
+/* Will get all the requests sent to server and choose whether to send data
+ * back or to give data to an AddData object by putting it in the AddData hash
+ */
 class GetData extends Thread {
-	boolean done;
+	boolean done; // if execution is completed for thread will be marked true
 	Socket socket;
 	
+	/* @param NONE
+	 * @return true if object completed run method, false if not
+	 */
 	public boolean isDone() {
 		return done;
 	}
 	
+	/* Will instantiate data types. Will start the run method via Thread 
+	 * interface start()
+	 * @param NONE
+	 * @return NONE
+	 */
 	GetData(Socket socket) { // not proud of this
 		this.socket = socket;
 		this.start();
 	}
 	
+	/* will call method getData, will start execution upon completion of object creation
+	 * will release CleanBuffers semaphore to start it if it isnt already running
+	 * @param NONE
+	 * @return NONE
+	 */
 	public void run() {
 		this.getData(socket);
 		this.done = true;
 		cleanBuffer.doWork();
 	}
 	
+	/* based on the kind of data it receives it will either give it to hash
+	 * so it can be stored in a data structure or it will create a new 
+	 * ReturnData object so that it can be returned to user
+	 * @param socket, will be used to get the packet data
+	 * @return NONE
+	 */
 	private void getData(Socket socket) {
 		try {
 			// getInputStream returns an input stream
@@ -134,24 +179,42 @@ class GetData extends Thread {
  * 
  */
 class ReturnData extends Thread {
-	boolean done;
+	boolean done;// if job method is done it will be marked true
 	Packet packet;
 	
+	/* @param NONE
+	 * @return will return true if run method is done else false
+	 */
 	public boolean isDone() {
 		return done;
 	}
 	
+	/* recieves a data packet which will have the data for the object 
+	 * that has to be found in data structure
+	 * @param packet that stores data on what needs to be returned
+	 * @return NONE
+	 */
 	ReturnData(Packet packet) {
 		this.packet = packet;
 		this.start();
 	}
 	
+	/* will be responsible for calling method sendBackData. Runs when 
+	 * ReturnData object is instantiated
+	 * @param NONE
+	 * @return NONE
+	 */
 	public void run() {
 		this.sendBackData(packet);
 		this.done = true;
 		cleanBuffer.doWork();
 	}
 	
+	/*  will get a Packet as input and will send the correct data back to 
+	 * user based on what is inside of the packet
+	 * @param packet which stores what data to send back
+	 * @return NONE
+	*/
 	public void sendBackData(Packet packet) {
 		try {
 			 
@@ -203,6 +266,12 @@ class AddData extends Thread {
 	
 	CircularBuffer<Packet> addPacket;	
 	
+	/* initializes structures tree and barberShopTree by loading them from
+	 * file if they have been stored in a file
+	 * will create a circularBuffer for storing packets it recieves
+	 * @param NONE
+	 * @return NONE
+	 */
 	AddData() {
 		this.saveNLoad = new SaveAndLoad("storage");
 		this.semaphore = new Semaphore(0);
@@ -215,22 +284,42 @@ class AddData extends Thread {
 		this.addPacket = new CircularBuffer<>(Packet[].class,200);		
 	}
 	
+	/* will return tree
+	 * @param NONE
+	 * @return a tree
+	 */
 	public Tree getTree() {
 		return tree;
 	}
 	
+	/* checks to see if CustomerInfo object is in tree
+	 * @param a customerInfo object
+	 * @return true if in tree false if not
+	 */
 	public boolean inTree(CustomerInfo info) {
 		return tree.inTree(info);
 	}
-	
+
+	/* checks to see if BarberShopInfo object is in tree
+	 * @param a BarberShopInfo object
+	 * @return true if in tree false if not
+	 */	
 	public boolean inBarberShopTree(BarberShopInfo info) {
 		return barberShopTree.inTree(info);
 	}
 	
+	/* will return barberShopTree
+	 * @param NONE
+	 * @return a barberShopTree
+	 */
 	public BarberShopTree getBarberShopTree() {
 		return barberShopTree;
 	}
 	
+	/* puts a packet in the circularBuffer
+	 * @param packet that will be stored
+	 * @return NONE
+	 */
 	public void givePacket(Packet packet) {
 		addPacket.saveThread(packet);
 	}
@@ -239,14 +328,17 @@ class AddData extends Thread {
 		this.semaphore.release();
 	}
 		
-		
+	/* will go through CircularBuffer of packets and store them one by one
+	 * by calling getData method and passing it the packet
+	 * @param NONE
+	 * @return NONE
+	 */	
 	public void run() {
 		try {
 			while (true) {
 				semaphore.acquire();
 				while (!addPacket.isEmpty()) {
 					getData(addPacket.consumeThread());
-	//				System.out.println("ThreadID " + threadID);
 				}
 				semaphore.drainPermits();
 			}
@@ -254,14 +346,19 @@ class AddData extends Thread {
 			
 		}
 	}
-	// 																													ADDING NODES TO BARBER TREE
+	//																									ADDING NODES TO BARBER TREE
+	/* Will take a packet and put the data inside it in the correct tree structure
+	 * or remove it from correct tree structure
+	 * @param excepts a packet from circularBuffer
+	 * @return NONE
+	 */
 	private void getData(Packet packet) {
 		try {
 			if (packet.getCustomer() != null) {
 				if (packet.request == RequestEnum.Request.giveData) {
 					packet.infoC.giveList(barberShopTree.getBarberShopList());					
 					tree.addNode(packet.getCustomer());
-					saveNLoad.SaveData(tree);
+					saveNLoad.SaveData(tree); // saves to file
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					tree.removeNode(packet.getCustomer());
 				}
@@ -269,7 +366,7 @@ class AddData extends Thread {
 				if (packet.request == RequestEnum.Request.giveData) {
 					barberShopTree.addNode(packet.getBarberShop());
 					globalBarberShopTree.addNode(packet.getBarberShop());
-					saveNLoad.SaveData(barberShopTree);					
+					saveNLoad.SaveData(barberShopTree);		// saves to file			
 				} else { // IF USE FIND DATA, only used WHEN entering an account because it checks if userName and password are the same
 					barberShopTree.removeNode(packet.getBarberShop());
 					globalBarberShopTree.removeNode(packet.getBarberShop());					
