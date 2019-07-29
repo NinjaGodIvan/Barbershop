@@ -27,7 +27,7 @@ public class Appointment implements Serializable {
 		//Sets current date and time
 		Calendar curr = Calendar.getInstance();
 										
-		//max_day: Last day of a specific month; least_year: returns the current year
+		//max_day: Last day of a specific month; curr_year: returns the current year
 		String max_day, curr_year;
 		
 		//Sets AM or PM
