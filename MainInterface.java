@@ -1,24 +1,21 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.*;
 
 public class MainInterface extends JFrame implements ActionListener{
 
-	
+	//references for the components I need 
 	private JButton logInButton,
 					signUpButton;
-	
 	private JLabel titleLabel;
 	private JPanel mainPanel;
-	
 	
 	public MainInterface(){
 	
 	logInButton = new JButton("Log In");
 	signUpButton = new JButton("Sign Up");
-	titleLabel = new JLabel("Choose: ");
+	titleLabel = new JLabel("Please Choosing one: ");
 	
 	
 	mainPanel = new JPanel();
@@ -28,26 +25,26 @@ public class MainInterface extends JFrame implements ActionListener{
 
 	add(mainPanel);
 	
-	
+	//add button to addActionListener
 	logInButton.addActionListener(this);
 	signUpButton.addActionListener(this);
-	
-	setSize(400, 200);
-	setTitle("Welcome to Barber Shop  !");
+	//set frame size
+	setSize(400, 400);
+	//set title
+	setTitle("Welcome to Barber Shop  !!!");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setVisible(true);
 	
 	}
-
+	// create new object
 	public static void main(String[] args) {
 		new MainInterface();
 	}
 	
-	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == logInButton) {
-			this.dispose();
-			new logInJFrame();
+			this.dispose();		//Destroy the current frame
+			new logInJFrame();   //create new frame
 		}
 		
 		if(e.getSource() == signUpButton) {
@@ -58,6 +55,7 @@ public class MainInterface extends JFrame implements ActionListener{
 }
 
 class logInJFrame extends JFrame implements ActionListener{
+	//references for the components I need 
 	private JButton loginAsCustomerButton,
 					loginAsBarberButton,
 					loginAsBarberShopButton,
@@ -90,7 +88,7 @@ class logInJFrame extends JFrame implements ActionListener{
 			
 			add(logInPanel);
 			
-			setSize(400, 200);
+			setSize(400, 400);  //set size
 			setTitle("Welcome to Log in  !");
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setVisible(true);
@@ -98,26 +96,26 @@ class logInJFrame extends JFrame implements ActionListener{
 		}
 		public static void main(String[] args) {
 				
-			new logInJFrame();
+			new logInJFrame(); //new object
 		}
 		
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == backButton) {
-				this.dispose();
-				new MainInterface();
+				this.dispose();    //Destroy the current frame
+				new MainInterface();	// back to the main meau
 			}	
 			
 			if(e.getSource() == loginAsCustomerButton) {
 				this.dispose();
-				new customerlogFrame();
+				new customerlogFrame();// go to the customer log in meau
 			}	
 			if(e.getSource() == loginAsBarberButton) {
 				this.dispose();
-				new barberlogFrame();
+				new barberlogFrame();// go to the barber log in meau
 			}	
 			if(e.getSource() == loginAsBarberShopButton) {
 				this.dispose();
-				new barberShoplogFrame();
+				new barberShoplogFrame();// go to the barbershop log in meau
 			}	
 			
 			}			
@@ -126,7 +124,7 @@ class logInJFrame extends JFrame implements ActionListener{
 	
 
 
-
+// the sign up JFrame
 class signUpJFrame extends JFrame implements ActionListener{
 	private JButton signUpAsCustomerButton,
 					signUpAsBarberButton,
@@ -149,12 +147,13 @@ class signUpJFrame extends JFrame implements ActionListener{
 		signUpPanel.add(signUpAsBarberButton);
 		signUpPanel.add(signUpAsBarberShopButton);
 		signUpPanel.add(backButton);
+		//add ActionListener
 		signUpAsCustomerButton.addActionListener(this);
 		signUpAsBarberButton.addActionListener(this);
 		signUpAsBarberShopButton.addActionListener(this);
 		backButton.addActionListener(this);
 		add(signUpPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to sign up  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -162,27 +161,27 @@ class signUpJFrame extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-			
+			// create new object
 		new signUpJFrame();
 	}
 		//  .....
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == backButton) {
 			this.dispose();
-			new MainInterface();
+			new MainInterface();  //back to Main meau
 		}
 		if(e.getSource() == signUpAsBarberButton) {
 			this.dispose();
-			new barberSignFrame();
+			new barberSignFrame();  // go to barber sign up frame
 		}
 		
 		if(e.getSource() == signUpAsCustomerButton) {
 			this.dispose();
-			new customerSignFrame();
+			new customerSignFrame();    // go to customer sign up frame
 		}
 		if(e.getSource() == signUpAsBarberShopButton) {
 			this.dispose();
-			new barberShopSignFrame();
+			new barberShopSignFrame();	// go to barbershop sign up frame
 		}
 		
 		
@@ -191,7 +190,7 @@ class signUpJFrame extends JFrame implements ActionListener{
 }
 
 
-
+// the customer lig in frame
 class customerlogFrame extends JFrame implements ActionListener{
 	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
@@ -207,8 +206,8 @@ class customerlogFrame extends JFrame implements ActionListener{
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		
 		logInPanel = new JPanel();
@@ -223,7 +222,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 		backButton.addActionListener(this);
 		LogInButton.addActionListener(this);
 		add(logInPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to log in  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -244,9 +243,10 @@ class customerlogFrame extends JFrame implements ActionListener{
 		}
 		
 		if(e.getSource() == LogInButton) {
+			// get  user input
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
-			//JOptionPane.showMessageDialog(null, name);
+			// check the input info with server
 			CustomerInfo customerInfo = getServer.getCustomerInfo(name,password);
 			if (customerInfo == null) {
 				System.out.println("ACCOUNT DOESNT EXIST");
@@ -255,7 +255,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 
 				customer = new Customer(customerInfo);
 			}			
-				//   need  work....
+				
 		}
 		
 	}
@@ -263,7 +263,7 @@ class customerlogFrame extends JFrame implements ActionListener{
 	
 }
 
-
+// barber log in frame
 class barberlogFrame extends JFrame implements ActionListener{
 	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
@@ -280,8 +280,8 @@ class barberlogFrame extends JFrame implements ActionListener{
 		backButton = new JButton("Back");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		logInPanel = new JPanel();
 		
@@ -316,6 +316,7 @@ class barberlogFrame extends JFrame implements ActionListener{
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
+			// check the input info with server
 			CustomerInfo customerInfo = getServer.getCustomerInfo(name,password);
 			if (customerInfo == null) {
 				System.out.println("ACCOUNT DOESNT EXIST");
@@ -324,12 +325,10 @@ class barberlogFrame extends JFrame implements ActionListener{
 					barber = new Barber(customerInfo);
 				}
 			}	
-		}
-		
-	}
-	
+		}	
+	}	
 }
-
+// barbershop log in frame
 class barberShoplogFrame extends JFrame implements ActionListener{
 	private JButton LogInButton,backButton;
 	private JLabel userNameLabel,
@@ -346,8 +345,8 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 		LogInButton = new JButton("log in");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		logInPanel = new JPanel();
 		
@@ -357,16 +356,14 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 		logInPanel.add(passWordTextField);
 		logInPanel.add(LogInButton);
 		logInPanel.add(backButton);
-		
+		// add ActionListener
 		LogInButton.addActionListener(this); 
 		backButton.addActionListener(this); 
 		add(logInPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to log in  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		
-		
 	}
 	public static void main(String[] args) {
 		
@@ -383,6 +380,7 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 		if(e.getSource() == LogInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
+			// check the input info with server
 			BarberShopInfo barberShopInfo = getServer.getBarberShopInfo(name,password);
 			if (barberShopInfo == null) {
 				System.out.println("ACCOUNT DOESNT EXIST");
@@ -412,8 +410,8 @@ class barberSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		signInPanel = new JPanel();
 		
@@ -427,7 +425,7 @@ class barberSignFrame extends JFrame implements ActionListener{
 		signInButton.addActionListener(this); 
 		backButton.addActionListener(this); 
 		add(signInPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to sign in  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -446,19 +444,27 @@ public static void main(String[] args) {
 		}
 		
 		if(e.getSource() == signInButton) {
-			 //serNameTextField.setText("a");
+			
 			String name =userNameTextField.getText();
 			
-			 //passWordTextField.setText("a");
 			 String password =  passWordTextField.getText();
+			 //  check password!
+			 passwordCheck check = new  passwordCheck();
+			 if(check.complexCheck(password) == true) {
+				 
 			CustomerInfo temp = new CustomerInfo(name,password);
 			temp.isBarber = true;
+			// check the input info with server
 			boolean test = getServer.createCustomerInfoAccount(temp);
 			if (test) {
 				System.out.println("ACCOUNT CREATED");
 			} else {
 				System.out.println("ACCOUNT EXISTS");
-			}		
+			}	
+			 }else {
+				 JOptionPane.showConfirmDialog(null, "Need number and lowercase and uppercase and Special symbols!(8 to 16) !!!"," WarningDialog!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				// passWordTextField.setText("Need number and lowercase and uppercase and Special symbols!(8 to 16) ");
+			 }
 		}
 		
 	}
@@ -482,8 +488,8 @@ class customerSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		signInPanel = new JPanel();
 		
@@ -497,7 +503,7 @@ class customerSignFrame extends JFrame implements ActionListener{
 		signInButton.addActionListener(this); 
 		backButton.addActionListener(this); 
 		add(signInPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to sign in  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -516,13 +522,21 @@ public static void main(String[] args) {
 		}
 		if(e.getSource() == signInButton) {
 			String name = userNameTextField.getText();
+			// checking password strong
 			String password = passWordTextField.getText();
+			passwordCheck check = new  passwordCheck();
+			 if(check.complexCheck(password) == true) {
+
+				// check the input info with server
 			boolean test = getServer.createCustomerInfoAccount(new CustomerInfo(name,password));
 			if (test) {
 				System.out.println("ACCOUNT CREATED");
 			} else {
 				System.out.println("ACCOUNT EXISTS");
-			}	
+			}
+			 }else {
+				 JOptionPane.showConfirmDialog(null, "Need number and lowercase and uppercase and Special symbols!(8 to 16) !!!"," WarningDialog!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			 }
 		}
 		
 	}
@@ -544,8 +558,8 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 		signInButton = new JButton("Sign up");
 		userNameLabel = new JLabel("User Name: ");
 		passWordLabel = new JLabel("password:  ");
-		userNameTextField = new JTextField(10); 
-		passWordTextField = new JTextField(10); 
+		userNameTextField = new JTextField(20); 
+		passWordTextField = new JTextField(20); 
 		
 		signInPanel = new JPanel();
 		
@@ -558,7 +572,7 @@ class barberShopSignFrame extends JFrame implements ActionListener{
 		signInButton.addActionListener(this); 
 		backButton.addActionListener(this); 
 		add(signInPanel);
-		setSize(400, 200);
+		setSize(400, 400);
 		setTitle("Welcome to sign in  !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -579,12 +593,20 @@ public static void main(String[] args) {
 		if(e.getSource() == signInButton) {
 			String name = userNameTextField.getText();
 			String password = passWordTextField.getText();
+			//check password strong
+			passwordCheck check = new  passwordCheck();
+			 if(check.complexCheck(password) == true) {
+
+			// check the input info with server
 			boolean test = getServer.createBarberShopAccount(new BarberShopInfo(name,password));
 			if (test) {
 				System.out.println("ACCOUNT CREATED");
 			} else {
 				System.out.println("ACCOUNT EXISTS");
-			}				
+			}	
+			 }else {
+				 JOptionPane.showConfirmDialog(null, "Need number and lowercase and uppercase and Special symbols!(8 to 16) !!!"," WarningDialog!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			 }
 		}
 		
 	}
