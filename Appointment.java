@@ -1,4 +1,3 @@
-//package barber;
 import java.util.Calendar;
 import java.io.Serializable;
 
@@ -7,11 +6,9 @@ public class Appointment implements Serializable {
 	CustomerInfo customer;
 	int am_pm; //1. AM; 2. PM
 	
-	/** Function that adds a customer's appointment */
-	public String makeAppointment(Customer customer, CustomerInfo customerInfo, int day, int month, int year, int min, int hour, int am_pm) {				
+	public String makeAppointment(Customer customer, CustomerInfo customerInfo, int day, int month, int year, int min, int hour, int am_pm) { /** Function that adds a customer's appointment */			
 
-		/* Compare non-Calendar variables */
-		if(month < 1 || month > 12) {
+		if(month < 1 || month > 12) { 	/* Compare non-Calendar variables */
 			return "You must pick a month between 1 to 12. Deleting your Appointment time :(";
 		}
 		if(min < 0 || min > 59) {
@@ -21,17 +18,13 @@ public class Appointment implements Serializable {
 			return "You must pick an hour between 1 to 12. Deleting your Appointment time :(";
 		}
 		
-		//Sets the customer's appointment date and time 
-		Calendar appointment = Calendar.getInstance();
+		Calendar appointment = Calendar.getInstance(); //Sets the customer's appointment date and time 
 
-		//Sets current date and time
-		Calendar curr = Calendar.getInstance();
+		Calendar curr = Calendar.getInstance(); //Sets current date and time
 										
-		//max_day: Last day of a specific month; curr_year: returns the current year
-		String max_day, curr_year;
+		String max_day, curr_year; //max_day: Last day of a specific month; curr_year: returns the current year
 		
-		//Sets AM or PM
-		this.am_pm = am_pm;
+		this.am_pm = am_pm;  //Sets AM or PM
 		
 		/*
 		 * Converts the time format from 24-hour to 12-hour to set appointment
@@ -47,15 +40,13 @@ public class Appointment implements Serializable {
 
 		}
 		else {
-			//Sets from 1:00PM to 11:00PM -> e.g: hour = 1 is 1:00AM and hour = 13 is 1:00PM; If this condition is false, then hour is set to 12:00PM
-			if(hour >= 1 && hour <= 11) 
+			if(hour >= 1 && hour <= 11)  //Sets from 1:00PM to 11:00PM -> e.g: hour = 1 is 1:00AM and hour = 13 is 1:00PM; If this condition is false, then hour is set to 12:00PM
 				hour += 12;
 			
 			appointment.set(year, month - 1, day, hour, min, 0);
 		}
 		
-		//If day is less than 1 or day is greater than the least maximum day from a specified month (February 28), go to this block
-		if(day < 1 || day > 28) { 
+		if(day < 1 || day > 28) {  //If day is less than 1 or day is greater than the least maximum day from a specified month (February 28), go to this block
 			//If day is less than 1 or day is greater than the most maximum day from specified months, then go to this block
 			if(day < 1 || day > 31)
 				return "Please pick a day from 1 to 31. Deleting your appointment time :(";
@@ -67,15 +58,13 @@ public class Appointment implements Serializable {
 			 */
 			appointment.add(Calendar.MONTH, -1);	
 			
-			//If the day is greater than the last day of the month, go to this block
-			if(day > appointment.getActualMaximum(Calendar.DAY_OF_MONTH)){
+			if(day > appointment.getActualMaximum(Calendar.DAY_OF_MONTH)){  //If the day is greater than the last day of the month, go to this block
 				//Gets the last day of the month
 				max_day = Integer.toString(appointment.getActualMaximum(Calendar.DAY_OF_MONTH));
 				return "You must pick a day between 1 to " + max_day + " in this month. Deleting your Appointment time :(";
 			}
 			
-			//Revert the appointment time
-			appointment.add(Calendar.MONTH, 1);
+			appointment.add(Calendar.MONTH, 1); //Revert the appointment time
 			appointment.set(year, month - 1, day, hour, min, 0);
 			System.out.println("Appointment Date: " + appointment.getTime() + "\n"); //Debugging purposes
 		}
@@ -87,14 +76,12 @@ public class Appointment implements Serializable {
 			return "You have enter a date or time that has passed. Deleting your Appointment time :(";
 		}
 		
-		//Goes to the next month for the correct appointment's month
 		this.date = appointment; // assign appointment to the date of appointment
 		this.customer = customerInfo; // assigning customer to appointment
 		return "No Error";
 	}
 	
-	/** Function that gets the customer's appointment */
-	public String getAppointment() {
+	public String getAppointment() { /** Function that gets the customer's appointment */
 		
 		int day, monthInInt, year, min, hour;
 		String month = "January";
@@ -126,8 +113,7 @@ public class Appointment implements Serializable {
 			}
 		
 		if(am_pm == 1) {
-			//adds 0 and the minute 
-			if(min >= 0 && min < 10)
+			if(min >= 0 && min < 10) //adds 0 and the minute 
 				return month + " " + day + ", " + year + " at " + hour + ":0" + min + "AM";
 			else
 				return month + " " + day + ", " + year + " at " + hour + ":" + min + "AM";
@@ -139,13 +125,11 @@ public class Appointment implements Serializable {
 				return month + " " + day + ", " + year + " at " + hour + ":" + min + "PM";		}
 	}
 	
-	/** Function that outputs the customer's appointment date */
-	public String checkAppointment(CustomerInfo info) {
+	public String checkAppointment(CustomerInfo info) { /** Function that outputs the customer's appointment date */
 		 return info.getUserName() + ", your appointment time is " + getAppointment();
 	}
 	
-	/** Function that cancels a customer's appointment */
-	public void cancelAppointment(Customer cust) {
+	public void cancelAppointment(Customer cust) { 	/** Function that cancels a customer's appointment */
 		cust.appt = null;
 	}
 	
