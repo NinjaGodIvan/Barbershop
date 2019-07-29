@@ -604,7 +604,7 @@ public static void main(String[] args) {
 			} else {
 				System.out.println("ACCOUNT EXISTS");
 			}	
-			 }else {
+			 }else {// error need more strong password
 				 JOptionPane.showConfirmDialog(null, "Need number and lowercase and uppercase and Special symbols!(8 to 16) !!!"," WarningDialog!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			 }
 		}
