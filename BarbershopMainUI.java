@@ -314,5 +314,3 @@ public JPanel barbershopMainPanel() { // The main entry point for the Barbershop
 	}
 	
 }
-
-

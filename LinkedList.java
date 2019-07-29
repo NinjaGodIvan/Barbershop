@@ -1,15 +1,4 @@
-package com;
 import java.io.Serializable;
-
-/*	addNode(String) 				 ***for add Node to end of the Linked list
- *  insertNodeByIndex(int,String)    ***for insert the node to the linked list by the Index 
- *  removeHeadNode() 				 ***remove the first node of the Linked list
- *  removeNodeByIndex(int) 			 ***remove the node by the Index
- *  print() 						 ***print all the node
- *  searchNode(String)				 ***search the node , return the index
- * 
- **/
-
 public class LinkedList implements Serializable {
 	Node headNode = null;
 	
@@ -137,29 +126,4 @@ public class LinkedList implements Serializable {
 			tem = tem.next;
 		}
 	}
-	
-	//test drive
-	/*
-	public static void main(String[] args) {
-		LinkedList test = new LinkedList();
-		test.addNode("2");
-		test.addNode("21");
-		//test.print();
-		test.addNode("3");
-		test.addNode("40");
-		test.addNode("50");
-		//test.print();
-		test.insertNodeByIndex(1, "10");
-		//test.print();
-		test.removeNodeByIndex(2);
-		test.print();
-		System.out.println("size : "+test.size());
-		test.removeHeadNode();
-		test.print();
-		test.searchNode("50");
-		}
-	
-	*/
-	
-	
 }

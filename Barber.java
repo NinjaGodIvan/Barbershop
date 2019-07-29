@@ -36,6 +36,7 @@ public class Barber
 	
 	public Barber(CustomerInfo info) {
 		server = new GetServer();
+		BarberInterface test = new BarberInterface(this);
 	}
 	
 	public void addAppointment() {

@@ -10,9 +10,9 @@ public class MainInterface extends JFrame implements ActionListener{
 					signUpButton;
 	private JLabel titleLabel;
 	private JPanel mainPanel;
+
 	
 	public MainInterface(){
-	
 	logInButton = new JButton("Log In");
 	signUpButton = new JButton("Sign Up");
 	titleLabel = new JLabel("Please Choosing one: ");
@@ -323,6 +323,7 @@ class barberlogFrame extends JFrame implements ActionListener{
 			} else {
 				if (customerInfo.isBarber == true) {
 					barber = new Barber(customerInfo);
+					
 				}
 			}	
 		}	
@@ -336,7 +337,7 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 	private JTextField userNameTextField,
 						passWordTextField;
 	private JPanel logInPanel;
-	BarbershopBarberUI shopUI;
+	BarbershopMainUI shopUI;
 	BarberShop barberShop;
 	GetServer getServer = new GetServer();
 	
@@ -387,7 +388,7 @@ class barberShoplogFrame extends JFrame implements ActionListener{
 			} else {
 				System.out.println("Welcome " + barberShopInfo.getUserName());
 				barberShop = new BarberShop(barberShopInfo);
-				shopUI = new BarbershopBarberUI(barberShop);
+				shopUI = new BarbershopMainUI(barberShop);
 			}
 		}
 		
@@ -600,7 +601,7 @@ public static void main(String[] args) {
 			// check the input info with server
 			boolean test = getServer.createBarberShopAccount(new BarberShopInfo(name,password));
 			if (test) {
-				System.out.println("ACCOUNT CREATED");
+				System.out.println("ACCOUNT CREATED");	
 			} else {
 				System.out.println("ACCOUNT EXISTS");
 			}	
@@ -613,4 +614,5 @@ public static void main(String[] args) {
 	
 	
 }
+
 

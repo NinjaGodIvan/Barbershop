@@ -9,6 +9,7 @@ public class BarberShopInfo implements Serializable {
 	private String address;
 	CustomerInfo[] barberStaff;
 	Appointment[] appointmentList;
+	public Waitlist currentList;	
 	int appointmentIndex;
 	LinkedList messages;
 //	public Waitlist currentList;

@@ -20,11 +20,11 @@ public class BarberInterface extends JFrame{
 				   waitlistPanel, 
 				   appointmentsPanel, 
 				   functionPanel;
-	Customer customer;			
+	Barber barber;			
 //	AppointmentInterFace temp;	   
 	
-	BarberInterface(Customer customer){
-		this.customer = customer;		
+	BarberInterface(Barber barber){
+		this.barber = barber;		
 		waitlistTextField = new JTextField(30);
 		appointmentsTextField = new JTextField(50);
 		

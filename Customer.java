@@ -1,7 +1,12 @@
 
+import java.util.Calendar;
+import java.util.Scanner;
+import java.io.Serializable;
+
 public class Customer extends Thread {
 	
-	public Appointment appt; //Customer's appointment date, their information, and barber shop
+	//Customer's appointment date, their information, and barber shop
+	public Appointment appt;
 	private String barberShop;
 	public CustomerInfo custInfo;
 	private GetServer server;
@@ -11,44 +16,55 @@ public class Customer extends Thread {
 		new AppointmentUI(this); //Opens the Appointment UI when Customer is called
 	}
 	
-	public Appointment getAppointment() { /** Gets the appointment object */
+	public Appointment getAppointment() {
 		return appt;
 	}
-		 
-	public void updateCustomer(CustomerInfo custInfo){ /** Updates customer's information */
+		
+	public void updateCustomer(CustomerInfo custInfo){ 
 		this.custInfo = custInfo;
 	}
 		
-	public void setBarberShop(String barberShop) { 	/** Function that asks user for the name of the barbershop and sets it */
+	/** Function that asks user for the name of the barbershop and sets it */
+	public void setBarberShop(String barberShop) {
 		
 		this.barberShop = barberShop;
 	}
 	
-	public void changePhone(long phoneNum) { 	/** Function that changes the customer's phone number */
+	/** Function that changes the customer's phone number */
+	public void changePhone(long phoneNum) {
 		custInfo.setCustomerPhone(phoneNum);
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
-	public void changeEmail(String email) { 	/** Function that changes the customer's phone number */
+	/** Function that changes the customer's phone number */
+	public void changeEmail(String email) {
 		custInfo.setCustomerEmail(email);
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
-	public void changeUserName(String username) {	/** Function that changes the customer's username */
-		
+	/** Function that changes the customer's username */
+	public void changeUserName(String username) {
 		custInfo.setUserName(username);
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
-	public void changeBarber(String barberShop) {	/** Function that changes the customer's barber shop name */
+	/** Function that gets the account from the server */
+	public void getAccount() {
+		//Code this
+	}
+	
+	/** Function that changes the customer's barber shop name */
+	public void changeBarber(String barberShop) {
 		this.barberShop = barberShop;
 	}
 
-	public String getBarber() { 	/** Function that gets the name of the customer's barbershop name */
+	/** Function that gets the name of the customer's barbershop name */
+	public String getBarber() {
 		return this.barberShop;
 	}
 	
-	public CustomerInfo getCustomerInfo() {	/** Function that returns the customer's info */
+	/** Function that returns the customer's info */
+	public CustomerInfo getCustomerInfo() {
 		return this.custInfo;
 	}
 }

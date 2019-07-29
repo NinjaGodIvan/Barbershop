@@ -1,14 +1,12 @@
 import java.io.Serializable;
-import CustomerInfo;
-import BarbershopInfo;
 
 class Waitlist implements Serializable {
 	//uses barbershopInfo to manage the waitlist, as an array of customers. 
-	private BarbershopInfo shopInfo;
+	private BarberShopInfo shopInfo;
 	private CustomerInfo[] list = null;
 	private int size = 0;
 	
-	public Waitlist(BarbershopInfo shopInfo) {
+	public Waitlist(BarberShopInfo shopInfo) {
 		this.shopInfo = shopInfo;
 		this.shopInfo.currentList = this;
 	}

@@ -37,6 +37,10 @@ public class CustomerInfo implements Serializable {
 		this("test", userName,"test",5555,password);
 	}	
 	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	public void giveList(BarberShopInfo[] barberShopList) {
 		this.barberShopList = barberShopList;
 	}
@@ -60,9 +64,9 @@ public class CustomerInfo implements Serializable {
 		return userName;
 	}
 	
-	public Long getPhoneNumber() {
-		return phone;
-	}
+	public String getPhoneNumber() {
+		return phone + "";
+}	
 	
 	public String getEmail() {
 		return email;

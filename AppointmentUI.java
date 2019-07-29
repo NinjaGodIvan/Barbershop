@@ -12,7 +12,8 @@ public class AppointmentUI extends JFrame{
 	String BarberShopSelected;
 	GetServer server;
 	
-	public JPanel MainMenuPanel() { 	//1. Main Menu Panel (Start Panel too!)
+	//1. Main Menu Panel (Start Panel too!)
+	public JPanel MainMenuPanel() {
 		
 		//Uses Border Layout to customize position of the JComponents
 		MainMenu_panel = new JPanel(new BorderLayout());
@@ -28,7 +29,8 @@ public class AppointmentUI extends JFrame{
 
 		button_panel = new JPanel(new GridBagLayout());
 		
-		makeAppointment_button = new JButton("Make Appointment"); //Goes to the Make Appointment option
+		//Goes to the Make Appointment option
+		makeAppointment_button = new JButton("Make Appointment");
 		makeAppointment_button.addActionListener(new ActionListener() {
 			
 			//This will remove the current panel being displayed and create a panel to be displayed on the frame
@@ -42,7 +44,8 @@ public class AppointmentUI extends JFrame{
 			}
 		});
 		
-		checkAppointment_button = new JButton("Check Appointment"); //Goes to the Check Appointment option
+		//Goes to the Check Appointment option
+		checkAppointment_button = new JButton("Check Appointment");
 		checkAppointment_button.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -56,19 +59,22 @@ public class AppointmentUI extends JFrame{
 			}
 		});
 		
-		cancelAppointment_button = new JButton("Cancel Appointment"); 		//Goes to the Cancel Appointment option
+		//Goes to the Cancel Appointment option
+		cancelAppointment_button = new JButton("Cancel Appointment");
 		cancelAppointment_button.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				
 				if(customer.appt != null) {
-					MainMenu_panel.removeAll(); //Should go to the Are You Sure Panel
+					//Should go to the Are You Sure Panel
+					MainMenu_panel.removeAll();
 					JPanel panel = AreYouSurePanel();
 					add(panel);
 					panel.repaint();
 					panel.revalidate();
 				}else {
-					MainMenu_panel.removeAll(); //Should go to the Cancel Appointment panel and display an error message
+					//Should go to the Cancel Appointment panel and display an error message
+					MainMenu_panel.removeAll();
 					JPanel panel = CancelAppointmentPanel();
 					add(panel);
 					panel.repaint();
@@ -77,7 +83,8 @@ public class AppointmentUI extends JFrame{
 			}
 		});
 		
-		pos = new GridBagConstraints(); //Used to position buttons
+		//Used to position buttons
+		pos = new GridBagConstraints();
 		pos.insets = new Insets(40,40,40,40);
 		
 		button_panel.add(makeAppointment_button, pos);
@@ -90,10 +97,11 @@ public class AppointmentUI extends JFrame{
 
 		return MainMenu_panel;
 	}
-
-	public JPanel MakeAppointmentPanel() { 	//2. Make Appointment Panel
+	//2. Make Appointment Panel
+	public JPanel MakeAppointmentPanel() {
 		
-		JPanel adjustPanel = new JPanel(new BorderLayout()); //Centers the panel 
+		//Centers the panel 
+		JPanel adjustPanel = new JPanel(new BorderLayout());
 		
 		pos = new GridBagConstraints();
 		
@@ -103,7 +111,8 @@ public class AppointmentUI extends JFrame{
 		 */
 		if(customer.appt == null) {
 			
-			MakeAppointment_panel = new JPanel(new GridBagLayout()); //Properly positions the JComponents of text fields, labels, and buttons
+			//Properly positions the JComponents of text fields, labels, and buttons
+			MakeAppointment_panel = new JPanel(new GridBagLayout());
 		
 			JLabel monthText = new JLabel("Enter Month:");
 			pos.gridx = 0;
@@ -179,9 +188,11 @@ public class AppointmentUI extends JFrame{
 					
 					int day, month, year, minute, hour, am_pm;
 					
-					String error_message = "No Error"; //Error message if the user enters an invalid value;  
+					//Error message if the user enters an invalid value;  
+					String error_message = "No Error";
 	
-					try { 	//Makes sure that the user does not enter a non-numerical value and leave the fields blank
+					//Makes sure that the user does not enter a non-numerical value and leave the fields blank
+					try {
 					
 						day = Integer.parseInt(dayField.getText());
 						month = Integer.parseInt(monthField.getText());
@@ -196,15 +207,18 @@ public class AppointmentUI extends JFrame{
 						else
 							throw new Exception();
 						
-						customer.appt = new Appointment(); //Creates an appointment for the customer				
+						//Creates an appointment for the customer
+						customer.appt = new Appointment();					
 						error_message = customer.appt.makeAppointment(customer, customer.custInfo, day, month, year, minute, hour, am_pm);
 						
-						JPanel panel; 	//Makes a success or failure panel
+						//Makes a success or failure panel
+						JPanel panel;
 						
-						if(error_message == "No Error") { //If there is no error, then go to success panel. Otherwise, display an error message instead
+						//If there is no error, then go to success panel. Otherwise, display an error message instead
+						if(error_message == "No Error") {
 							// Vlad is the writer*************************
 							BarberShopInfo temp = server.getBarberShopInfo(BarberShopSelected);
-							System.out.println("Info sent to " + temp.getUserName);
+							System.out.println("Info sent to " + temp.getUserName());
 							temp.giveAppointment(customer.appt);
 							server.giveBarberShopInfo(temp);
 							// *********************************************
@@ -221,7 +235,8 @@ public class AppointmentUI extends JFrame{
 							panel.revalidate();
 						}
 					}catch(NumberFormatException exception) { //Catches this exception if the user enter a non-numerical value, double, or text
-						MakeAppointment_panel.removeAll(); //Goes to the error message
+						//Goes to the error message
+						MakeAppointment_panel.removeAll();
 						JPanel panel = InvalidMessagePanel();
 						add(panel);
 						panel.repaint();
@@ -242,7 +257,8 @@ public class AppointmentUI extends JFrame{
 			pos.gridx = 0;
 			pos.gridy = -6;
 			MainMenuButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) { //Goes back to the main menu
+				//Goes back to the main menu
+				public void actionPerformed(ActionEvent e) {
 					MakeAppointment_panel.removeAll();
 					JPanel panel = MainMenuPanel();
 					add(panel);
@@ -258,7 +274,7 @@ public class AppointmentUI extends JFrame{
 			JPanel errorPanel = new JPanel(new BorderLayout());
 			JLabel errorText = new JLabel("You have already made your appointment. Please cancel your appointment to do this.");
 			errorText.setFont(new Font("Arial", Font.BOLD, 20));
-			errorText.setBounds(40, -150, 900, 500);
+			errorText.setBounds(40, -150, 900, 500); //Add
 			errorPanel.add(errorText);
 			
 			button_panel = new JPanel(new GridBagLayout());
@@ -290,12 +306,14 @@ public class AppointmentUI extends JFrame{
 		return adjustPanel;
 	}
 	
-	public JPanel CheckAppointmentPanel() { //3. Check Appointment Panel (Have customer check their appointment date and time)
-
+	//3. Check Appointment Panel (Have customer check their appointment date and time)
+	public JPanel CheckAppointmentPanel() {
+		
 		CheckAppointment_panel = new JPanel(new BorderLayout());
 		
 		if(customer.appt != null) {
-			JLabel checkText = new JLabel(customer.appt.checkAppointment(customer.custInfo)); //Lets the customer know the date of their appointment
+			//Lets the customer know the date of their appointment
+			JLabel checkText = new JLabel(customer.appt.checkAppointment(customer.custInfo));
 			checkText.setFont(new Font("Arial", Font.BOLD, 20));
 			checkText.setBounds(130, -150, 900, 500);
 			CheckAppointment_panel.add(checkText);
@@ -366,17 +384,20 @@ public class AppointmentUI extends JFrame{
 		return CheckAppointment_panel;
 	}
 	
-	public JPanel CancelAppointmentPanel() { //4. Cancel Appointment Panel (Have customer cancel the appointment)
+	//4. Cancel Appointment Panel (Have customer cancel the appointment)
+	public JPanel CancelAppointmentPanel() {
 		
 		CancelAppointment_panel = new JPanel(new BorderLayout());
 		
-		if(customer.appt != null) { 	//If customer's appointment is created, display a successful message, otherwise tell them that it has not been made.
+		//If customer's appointment is created, display a successful message, otherwise tell them that it has not been made.
+		if(customer.appt != null) {
 			JLabel cancelText = new JLabel("You have successfully cancelled your appointment!");
 			cancelText.setFont(new Font("Arial", Font.BOLD, 20));
 			cancelText.setBounds(200, -150, 900, 500);
 			CancelAppointment_panel.add(cancelText);
 			
-			customer.appt.cancelAppointment(customer); //Cancels the appointment
+			//Cancels the appointment
+			customer.appt.cancelAppointment(customer);
 			
 			button_panel = new JPanel(new GridBagLayout());
 			JButton MainMenuButton = new JButton("Main Menu");
@@ -439,11 +460,12 @@ public class AppointmentUI extends JFrame{
 		}
 		
 		CancelAppointment_panel.setBounds(0, 0, 900, 500);
-		setLayout(null); 
+		setLayout(null); //Added
 
 		return CancelAppointment_panel;
 	}
-	public JPanel InvalidMessagePanel() { //5. Invalid Input Message Panel (If the user did entered a text or not enter anything on the required fields, go to this panel)
+	//5. Invalid Input Message Panel (If the user did entered a text or not enter anything on the required fields, go to this panel)
+	public JPanel InvalidMessagePanel() {
 		
 		InvalidInputMessage_panel = new JPanel(new BorderLayout());
 		JLabel invalidText = new JLabel("You have either enter a text or did not enter anything on all required fields. Unable to create your appointment :(");
@@ -476,7 +498,8 @@ public class AppointmentUI extends JFrame{
 		return InvalidInputMessage_panel;
 	}
 	
-	public JPanel InvalidMessagePanel2(String err) { //6. Invalid Input Message Panel 2 (If the user enters invalid date fields [e.g. Day: 31, Month: 15], go to this panel)
+	//6. Invalid Input Message Panel 2 (If the user enters invalid date fields [e.g. Day: 31, Month: 15], go to this panel)
+	public JPanel InvalidMessagePanel2(String err) {
 		
 		InvalidInputMessage_panel = new JPanel(new BorderLayout());
 		
@@ -511,7 +534,8 @@ public class AppointmentUI extends JFrame{
 		return InvalidInputMessage_panel;
 	}
 	
-	public JPanel SuccessPanel1() { //7. Success Panel (If the user successfully create an appointment, go to this panel).
+	//7. Success Panel (If the user successfully create an appointment, go to this panel).
+	public JPanel SuccessPanel1() {
 		 
 		Success_panel = new JPanel(new BorderLayout()); //Add
 		JLabel successText = new JLabel("You have successfully made your appointment! You may go back to the main menu :)");
@@ -544,9 +568,10 @@ public class AppointmentUI extends JFrame{
 		return Success_panel;
 	}
 		
-	public JPanel AreYouSurePanel() { //8. Are You Sure Panel (Checks if the customer is sure to remove the appointment)
+	//8. Are You Sure Panel (Checks if the customer is sure to remove the appointment)
+	public JPanel AreYouSurePanel() {
 		
-		AreYouSure_panel = new JPanel(new BorderLayout()); 
+		AreYouSure_panel = new JPanel(new BorderLayout()); //Add
 		
 		JLabel text = new JLabel("Do you want to cancel your appointment?");
 		text.setFont(new Font("Arial", Font.BOLD, 20));
@@ -557,11 +582,13 @@ public class AppointmentUI extends JFrame{
 		pos = new GridBagConstraints();
 		pos.insets = new Insets(40,40,40,40);
 		
-		JButton yes = new JButton("Yes"); //If clicked yes, go to the next message
+		//If clicked yes, go to the next message
+		JButton yes = new JButton("Yes");
 		yes.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				AreYouSure_panel.removeAll(); 	//Should go to the Cancel Appointment Panel to remove appointment and display a successful message
+				//Should go to the Cancel Appointment Panel to remove appointment and display a successful message
+				AreYouSure_panel.removeAll();
 				JPanel panel = AreYouSurePanel2();
 				add(panel);
 				panel.repaint();
@@ -569,7 +596,8 @@ public class AppointmentUI extends JFrame{
 			}
 		});
 		
-		JButton no = new JButton("No"); //Else, go back to the main menu
+		//Else, go back to the main menu
+		JButton no = new JButton("No");
 		no.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -591,7 +619,8 @@ public class AppointmentUI extends JFrame{
 		return AreYouSure_panel;
 	}
 	
-	public JPanel AreYouSurePanel2() { 	//9. Are You Sure Panel 2 (Check one more time with the customer, if they are really sure)
+	//9. Are You Sure Panel 2 (Check one more time with the customer, if they are really sure)
+	public JPanel AreYouSurePanel2() {
 		
 		JPanel AreYouSure2_panel = new JPanel(new BorderLayout());
 		
@@ -606,8 +635,8 @@ public class AppointmentUI extends JFrame{
 		JButton yes = new JButton("Yes I'm Very Sure!");
 		yes.addActionListener(new ActionListener() {
 			
-			public void actionPerformed(ActionEvent e) { 	//Should go to the Cancel Appointment Panel to remove appointment and display a successful message
-
+			public void actionPerformed(ActionEvent e) {
+				//Should go to the Cancel Appointment Panel to remove appointment and display a successful message
 				AreYouSure2_panel.removeAll();
 				JPanel panel = CancelAppointmentPanel();
 				add(panel);
@@ -642,7 +671,8 @@ public class AppointmentUI extends JFrame{
 		return AreYouSure2_panel;
 	}
 	
-	public AppointmentUI(Customer cust) { //Opens an Appointment window
+	//Opens an Appointment window
+	public AppointmentUI(Customer cust) {
 		
 		//Gets customer's account and info to make appointment
 		this.customer = cust; 
@@ -700,21 +730,28 @@ public class AppointmentUI extends JFrame{
 				for (BarberShopInfo b : barberList) {
 					size++;
 				}
-				setLayout(new GridLayout(1,size));	
-				setBorder(BorderFactory.createTitledBorder("select Shop"));					
-				System.out.println(size);
-				barberShops = new JButton[size];
-				barberShopNames = new String[size];
+				if (size > 0) {
+					setLayout(new GridLayout(1,size));	
+					setBorder(BorderFactory.createTitledBorder("select Shop"));					
+					
+					barberShops = new JButton[size];
+					barberShopNames = new String[size];
 
-				for (int i = 0; i < size; i++) {
-					barberShops[i] = new JButton(barberList[i].getUserName());
-					barberShops[i].setPreferredSize(new Dimension(150, 30));				
-					barberShops[i].addActionListener(new aButtonHandler(barberList[i].getUserName()));
-					buttonPanel.add(barberShops[i]);				
-				}		
-				
-				add(buttonPanel);		
-	//			setSize(150, (size*15));	
+					for (int i = 0; i < size; i++) {
+						barberShops[i] = new JButton(barberList[i].getUserName());
+						barberShops[i].setPreferredSize(new Dimension(150, 30));				
+						barberShops[i].addActionListener(new aButtonHandler(barberList[i].getUserName()));
+						buttonPanel.add(barberShops[i]);				
+					}		
+					if (size == 0) {
+						
+					}
+					
+					add(buttonPanel);		
+		//			setSize(150, (size*15));	
+				 } else {
+					hold.dispose();			// if no barbers terminate		 
+				 }
 				return size;			
 		}	
 		private class aButtonHandler implements ActionListener{
@@ -734,6 +771,3 @@ public class AppointmentUI extends JFrame{
 	
 	
 }
-
-
-

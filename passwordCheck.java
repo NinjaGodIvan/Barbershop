@@ -1,5 +1,3 @@
-
-
 // The password need to contain the number and lowercase and uppercase and Special symbols same time !
 // Ues the complexCheck(String) method to work! 
 
