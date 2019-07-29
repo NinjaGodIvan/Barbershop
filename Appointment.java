@@ -40,16 +40,20 @@ public class Appointment implements Serializable {
 		if(am_pm == 1) {
 			if(hour == 12) //Sets to 12:00AM and appointment hour to be the first hour of the day
 				appointment.set(year, month - 1, day, 0, min, 0);
+			else{
+				//By default set the appointment time with a given hour
+				appointment.set(year, month - 1, day, hour, min, 0);
+			}
+
 		}
 		else {
 			//Sets from 1:00PM to 11:00PM -> e.g: hour = 1 is 1:00AM and hour = 13 is 1:00PM; If this condition is false, then hour is set to 12:00PM
 			if(hour >= 1 && hour <= 11) 
 				hour += 12;
+			
+			appointment.set(year, month - 1, day, hour, min, 0);
 		}
 		
-		appointment.set(year, month - 1, day, hour, min, 0);
-		System.out.println("Appointment Date: " + appointment.getTime() + "\n"); //Debugging purposes
-
 		//If day is less than 1 or day is greater than the least maximum day from a specified month (February 28), go to this block
 		if(day < 1 || day > 28) { 
 			//If day is less than 1 or day is greater than the most maximum day from specified months, then go to this block
@@ -62,7 +66,6 @@ public class Appointment implements Serializable {
 			 * This function will go back to the previous month -> December 2 to November 2
 			 */
 			appointment.add(Calendar.MONTH, -1);	
-			System.out.println("Appointment Date: " + appointment.getTime() + "\n"); //Debugging purposes
 			
 			//If the day is greater than the last day of the month, go to this block
 			if(day > appointment.getActualMaximum(Calendar.DAY_OF_MONTH)){
@@ -88,7 +91,6 @@ public class Appointment implements Serializable {
 		this.date = appointment; // assign appointment to the date of appointment
 		this.customer = customerInfo; // assigning customer to appointment
 		return "No Error";
-		
 	}
 	
 	/** Function that gets the customer's appointment */
@@ -110,14 +112,14 @@ public class Appointment implements Serializable {
 		}else {
 			
 			/*
-			 * Converts time format from 24-hour to 13-hour, e.g: 13:00 is 1:00PM
+			 * Converts time format from 24-hour to 12-hour, e.g: 13:00 is 1:00PM
 			 * If hour == 12, do nothing
 			 */
 			if(hour >= 13 && hour <= 23) 
 				hour -= 12;
 		}
 			
-		
+		//Gets the name of the month
 		for(int a = 0; a < months.length; a++)
 			if(a == (monthInInt - 1)) {
 				month = months[monthInInt - 1];
