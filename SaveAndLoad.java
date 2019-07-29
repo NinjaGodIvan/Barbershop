@@ -15,6 +15,7 @@ public class SaveAndLoad {
 //		System.out.println(this.filename1 + " " + this.filename2);
 	}
 	
+	//Performs serialization to save all tree objects to a file
 	public void SaveData(Tree tree) {
 		
 		try {
@@ -28,6 +29,7 @@ public class SaveAndLoad {
 		}
 	}
 	
+	//Performs serialization to save all BarberShopTree objects to a file
 	public void SaveData(BarberShopTree barberTree) {
 		
 		try {
@@ -41,6 +43,7 @@ public class SaveAndLoad {
 		}	
 	}
 	
+	//Performs deserialization to load all tree objects from a file
 	public Tree LoadTreeData() {
 		
 		Tree loadTree = null;
@@ -58,7 +61,7 @@ public class SaveAndLoad {
 		return loadTree;
 		}
 	}
-	
+	//Performs deserialization to load all tree objects from a file
 	public BarberShopTree LoadBarberShopTreeData() {
 		
 		BarberShopTree loadTree = null;
