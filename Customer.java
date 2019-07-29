@@ -44,11 +44,6 @@ public class Customer extends Thread {
 		server.giveCustomerInfo(this.custInfo);
 	}
 	
-	/** Function that gets the account from the server */
-	public void getAccount() {
-		//Code this
-	}
-	
 	/** Function that changes the customer's barber shop name */
 	public void changeBarber(String barberShop) {
 		this.barberShop = barberShop;
